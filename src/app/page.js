@@ -1,34 +1,147 @@
+const projects = [
+  {
+    title: "Phoenix — LLM Post-Training at HTX",
+    status: "Shipped",
+    image: "/phoenix.png",
+    metric: "12.7% domain gain · 10,000+ personnel · ~20% workflow improvement",
+    impact: "Fine-tuned a large language model for legal work at Singapore's Home Team Science and Technology Agency. The models went into AI tooling deployed to over 10,000 public-safety personnel, improving tested workflows by around 20%.",
+    technical: "Investigated catastrophic forgetting across LoRA, CPT, and full-parameter SFT, lifting legal-domain performance 12.7% while holding general-capability loss under 3%. Trained across 8× H100s with FSDP2, sequence packing, and fused kernels.",
+    tags: ["PyTorch", "FSDP2", "LoRA/PEFT", "lm-eval-harness"],
+    link: null,
+  },
+  {
+    title: "KTP Life App",
+    status: "Shipped",
+    image: "/ktp-app.png",
+    metric: "20+ pledges · 200+ brothers",
+    impact: "Built the pledge-class overview for Kappa Theta Pi's chapter app: a live points ring, leaderboard, activity log, and strikes tracker. It became the screen members open the app to see.",
+    technical: "Designed the UI in Figma, built it in React and TypeScript, and migrated the feature off hardcoded demo data onto Firestore so class progress syncs across users in real time.",
+    tags: ["React", "TypeScript", "Firebase", "Figma"],
+    link: null,
+  },
+  {
+    title: "Agent Orchestrator",
+    status: "Shipped",
+    image: null,
+    metric: null,
+    impact: "A multi-agent system that takes a complex request, breaks it into subtasks, and routes each one to the right specialist agent, research, web search, email, or sandboxed code execution.",
+    technical: "LangGraph orchestration with SQL task memory, semantic caching over embeddings, Arize Phoenix tracing, and network-isolated ephemeral Docker containers for running model-generated code safely.",
+    tags: ["Python", "LangGraph", "Docker", "Arize Phoenix"],
+    link: "https://github.com/Bennettleesm123/agent-orchestrator",
+  },
+  {
+    title: "Agent Reliability Harness",
+    status: "Shipped",
+    image: null,
+    metric: null,
+    impact: "A harness that makes LLM agents predictable enough to trust, built on the idea that reliability comes from the scaffolding around the model, not the model itself.",
+    technical: "Framework-free, with schema-validated tools, permission gating and human approval, persistent tracing, deterministic replay, failure injection, and automated regression evaluation across runs.",
+    tags: ["Python", "Pydantic", "Docker", "Ollama"],
+    link: "https://github.com/Bennettleesm123/agent-reliability-harness",
+  },
+  {
+    title: "Caregiver Portal",
+    status: "In progress",
+    image: null,
+    metric: null,
+    impact: "A free tool helping Singaporean families find the eldercare subsidies they qualify for. Nearly half of caregivers report not knowing what support exists, while the schemes themselves sit behind a maze of overlapping eligibility rules.",
+    technical: "A deterministic rules engine over a hand-curated dataset of official schemes. Chose plain logic over an LLM so eligibility guidance stays accurate, explainable, and traceable to the official source.",
+    tags: ["Next.js", "React", "Tailwind"],
+    link: null,
+  },
+];
+
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white text-slate-900">
+    <main className="min-h-screen bg-base text-ink">
 
-      <section className="max-w-3xl mx-auto px-6 pt-24 pb-16">
-        <p className="text-lg text-slate-500 mb-2">Hey, I&apos;m Bennett</p>
-        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">Bennett Lee</h1>
-        <p className="mt-5 text-lg text-slate-600 leading-relaxed max-w-2xl">
+      <section className="max-w-3xl mx-auto px-6 pt-20 pb-8">
+        <p className="text-lg text-neutral-500 mb-2">Hey, I&apos;m Bennett</p>
+        <h1 className="font-display text-4xl sm:text-5xl font-bold tracking-tight">Bennett Lee</h1>
+        <p className="mt-4 text-lg text-neutral-700 leading-relaxed max-w-2xl">
           I build and train AI systems for the real world, healthcare, public safety, and finance, and I care about making them genuinely useful to people.
         </p>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <a href="https://github.com/Bennettleesm123" target="_blank" rel="noopener noreferrer" className="px-4 py-2 rounded-lg bg-slate-900 text-white text-sm font-medium hover:bg-slate-700 transition-colors">GitHub</a>
-          <a href="https://www.linkedin.com/in/bennettleesm/" target="_blank" rel="noopener noreferrer" className="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 text-sm font-medium hover:bg-slate-100 transition-colors">LinkedIn</a>
-          <a href="mailto:bennettleesm@gmail.com" className="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 text-sm font-medium hover:bg-slate-100 transition-colors">Email</a>
-          <a href="/Bennett_Resume_PM.pdf" target="_blank" rel="noopener noreferrer" className="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 text-sm font-medium hover:bg-slate-100 transition-colors">Resume</a>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <a href="https://github.com/Bennettleesm123" target="_blank" rel="noopener noreferrer" className="px-4 py-2 rounded-lg bg-accent text-white text-sm font-medium shadow-sm hover:bg-accent-hover hover:shadow-md hover:-translate-y-0.5 transition-all duration-150">GitHub</a>
+          <a href="https://www.linkedin.com/in/bennettleesm/" target="_blank" rel="noopener noreferrer" className="px-4 py-2 rounded-lg bg-accent text-white text-sm font-medium shadow-sm hover:bg-accent-hover hover:shadow-md hover:-translate-y-0.5 transition-all duration-150">LinkedIn</a>
+          <a href="mailto:bennettleesm@gmail.com" className="px-4 py-2 rounded-lg bg-accent text-white text-sm font-medium shadow-sm hover:bg-accent-hover hover:shadow-md hover:-translate-y-0.5 transition-all duration-150">Email</a>
+          <a href="/Bennett_Resume_PM.pdf" target="_blank" rel="noopener noreferrer" className="px-4 py-2 rounded-lg bg-accent text-white text-sm font-medium shadow-sm hover:bg-accent-hover hover:shadow-md hover:-translate-y-0.5 transition-all duration-150">Resume</a>
         </div>
       </section>
 
-      <section className="max-w-3xl mx-auto px-6 py-16">
-        <h2 className="text-2xl font-semibold mb-6">Projects</h2>
-        <p className="text-slate-400">[ project cards go here ]</p>
+      <section className="max-w-3xl mx-auto px-6 pt-6 pb-8">
+        <h2 className="font-display text-2xl font-semibold mb-4">Projects</h2>
+        <div className="space-y-5">
+          {projects.map((p) => (
+            <article key={p.title} className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-accent/40 transition-all duration-150">
+              {p.image ? (
+                <div className="mb-5 rounded-xl bg-accent-soft/20 flex justify-center py-6">
+                  <img src={p.image} alt={p.title} className="max-h-96 w-auto object-contain rounded-lg" />
+                </div>
+              ) : null}
+              <div className="flex items-start justify-between gap-4">
+                <h3 className="font-display text-lg font-semibold">{p.title}</h3>
+                <span className="shrink-0 rounded-full bg-accent-soft/40 px-3 py-1 text-xs font-medium text-neutral-700">{p.status}</span>
+              </div>
+              {p.metric ? <p className="mt-2 text-sm font-medium text-accent">{p.metric}</p> : null}
+              <p className="mt-3 text-neutral-700 leading-relaxed">{p.impact}</p>
+              <p className="mt-3 text-sm text-neutral-500 leading-relaxed">{p.technical}</p>
+              <div className="mt-4 flex flex-wrap items-center gap-2">
+                {p.tags.map((t) => (
+                  <span key={t} className="rounded-md bg-neutral-100 px-2.5 py-1 text-xs text-neutral-600">{t}</span>
+                ))}
+                {p.link ? <a href={p.link} target="_blank" rel="noopener noreferrer" className="ml-auto text-sm font-medium text-accent hover:text-accent-hover transition-colors">View on GitHub →</a> : null}
+              </div>
+            </article>
+          ))}
+        </div>
       </section>
 
-      <section className="max-w-3xl mx-auto px-6 py-16">
-        <h2 className="text-2xl font-semibold mb-6">About</h2>
-        <p className="text-slate-400">[ about content goes here ]</p>
+      <section className="max-w-3xl mx-auto px-6 pt-6 pb-8">
+        <h2 className="font-display text-2xl font-semibold mb-4">Research</h2>
+        <div className="space-y-4">
+          <div className="rounded-xl border border-neutral-200 bg-white p-5">
+            <h3 className="font-display font-semibold">Otolaryngology &amp; Translational Oncology Lab, Michigan</h3>
+            <p className="mt-2 text-sm text-neutral-600 leading-relaxed">Python pipelines for mutation and copy-number analysis across tumor-normal sequencing samples, plus QC workflows that catch contamination before it reaches downstream genomic analysis.</p>
+          </div>
+          <div className="rounded-xl border border-neutral-200 bg-white p-5">
+            <h3 className="font-display font-semibold">Computational Vascular Biomechanics Lab, Michigan</h3>
+            <p className="mt-2 text-sm text-neutral-600 leading-relaxed">Trained an nnU-Net 3D segmentation model to reconstruct coronary microvasculature from expert-annotated microscopy data, reaching about 83% overlap with expert annotations.</p>
+          </div>
+        </div>
       </section>
 
-      <section className="max-w-3xl mx-auto px-6 py-16">
-        <h2 className="text-2xl font-semibold mb-6">Contact</h2>
-        <p className="text-slate-400">[ contact + links go here ]</p>
+      <section className="max-w-3xl mx-auto px-6 pt-6 pb-8">
+        <h2 className="font-display text-2xl font-semibold mb-4">About</h2>
+        <div className="flex flex-col sm:flex-row gap-8 items-start">
+          <img src="/bennett.jpg" alt="Bennett Lee" className="w-40 h-40 rounded-2xl object-cover shrink-0" />
+          <div className="space-y-4 text-neutral-700 leading-relaxed">
+            <p>
+              I&apos;m from Singapore and I study CS at Michigan. I spent two years in the Singapore army before that.
+            </p>
+            <p>
+              These days I mostly work on language models and the stuff around them. I did post-training and evaluation at HTX over a summer, I build agent infrastructure in my own time, and I&apos;ve worked in two labs here applying ML to genomics and medical imaging.
+            </p>
+            <p>
+              I got into ML partly because I found it fascinating that so much of it comes down to linear algebra. A lot of what looks like magic is matrices being multiplied, and I like that. The part I keep coming back to is reliability, models can look great on a benchmark and still fall over when someone actually depends on them.
+            </p>
+            <p>
+              Outside of that: saxophone, jazz, bonsai, soccer, running, and a lot of history reading.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="max-w-3xl mx-auto px-6 pt-6 pb-20">
+        <h2 className="font-display text-2xl font-semibold mb-4">Contact</h2>
+        <p className="text-neutral-700 leading-relaxed mb-5 max-w-2xl">
+          Feel free to email me if you&apos;re down to chat or talk about anything here!
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <a href="mailto:bennettleesm@gmail.com" className="px-4 py-2 rounded-lg bg-accent text-white text-sm font-medium shadow-sm hover:bg-accent-hover hover:shadow-md hover:-translate-y-0.5 transition-all duration-150">bennettleesm@gmail.com</a>
+          <a href="https://www.linkedin.com/in/bennettleesm/" target="_blank" rel="noopener noreferrer" className="px-4 py-2 rounded-lg border border-neutral-300 text-neutral-700 text-sm font-medium hover:border-accent hover:text-accent transition-colors">LinkedIn</a>
+          <a href="https://github.com/Bennettleesm123" target="_blank" rel="noopener noreferrer" className="px-4 py-2 rounded-lg border border-neutral-300 text-neutral-700 text-sm font-medium hover:border-accent hover:text-accent transition-colors">GitHub</a>
+        </div>
       </section>
 
     </main>
