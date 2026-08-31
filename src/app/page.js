@@ -13,8 +13,8 @@ const projects = [
     title: "KTP Life App",
     status: "Shipped",
     image: "/ktp-app.png",
-    metric: "20+ pledges · 200+ brothers",
-    impact: "Built the pledge-class overview for Kappa Theta Pi's chapter app: a live points ring, leaderboard, activity log, and strikes tracker. It became the screen members open the app to see.",
+    metric: "20+ pledges · 200+ members",
+    impact: "Helped develop the pledge-class overview for Kappa Theta Pi's app, Michigan's premier technology fraternity: a live points ring, leaderboard, activity log, and strikes tracker. The app is used by rushees and over 200 members for everything to do with the fraternity.",
     technical: "Designed the UI in Figma, built it in React and TypeScript, and migrated the feature off hardcoded demo data onto Firestore so class progress syncs across users in real time.",
     tags: ["React", "TypeScript", "Firebase", "Figma"],
     link: null,
@@ -34,7 +34,7 @@ const projects = [
     status: "Shipped",
     image: null,
     metric: null,
-    impact: "A harness that makes LLM agents predictable enough to trust, built on the idea that reliability comes from the scaffolding around the model, not the model itself.",
+    impact: "A harness that makes LLM agents trustworthy, reliable, and useful for the specific jobs you point them at.",
     technical: "Framework-free, with schema-validated tools, permission gating and human approval, persistent tracing, deterministic replay, failure injection, and automated regression evaluation across runs.",
     tags: ["Python", "Pydantic", "Docker", "Ollama"],
     link: "https://github.com/Bennettleesm123/agent-reliability-harness",
@@ -56,7 +56,6 @@ export default function Home() {
     <main className="min-h-screen bg-base text-ink">
 
       <section className="max-w-3xl mx-auto px-6 pt-20 pb-8">
-        <p className="text-lg text-neutral-500 mb-2">Hey, I&apos;m Bennett</p>
         <h1 className="font-display text-4xl sm:text-5xl font-bold tracking-tight">Bennett Lee</h1>
         <p className="mt-4 text-lg text-neutral-700 leading-relaxed max-w-2xl">
           I build and train AI systems for the real world, healthcare, public safety, and finance, and I care about making them genuinely useful to people.
@@ -106,29 +105,31 @@ export default function Home() {
           </div>
           <div className="rounded-xl border border-neutral-200 bg-white p-5">
             <h3 className="font-display font-semibold">Computational Vascular Biomechanics Lab, Michigan</h3>
-            <p className="mt-2 text-sm text-neutral-600 leading-relaxed">Trained an nnU-Net 3D segmentation model to reconstruct coronary microvasculature from expert-annotated microscopy data, reaching about 83% overlap with expert annotations.</p>
+            <p className="mt-2 text-sm text-neutral-600 leading-relaxed">Helped train an nnU-Net 3D segmentation model to reconstruct coronary microvasculature from expert-annotated microscopy data, reaching about 83% overlap with expert annotations.</p>
           </div>
         </div>
       </section>
 
-      <section className="max-w-3xl mx-auto px-6 pt-6 pb-8">
-        <h2 className="font-display text-2xl font-semibold mb-4">About</h2>
-        <div className="flex flex-col sm:flex-row gap-8 items-start">
-          <img src="/bennett.jpg" alt="Bennett Lee" className="w-40 h-40 rounded-2xl object-cover shrink-0" />
-          <div className="space-y-4 text-neutral-700 leading-relaxed">
-            <p>
-              I&apos;m from Singapore and I study CS at Michigan. I spent two years in the Singapore army before that.
-            </p>
-            <p>
-              These days I mostly work on language models and the stuff around them. I did post-training and evaluation at HTX over a summer, I build agent infrastructure in my own time, and I&apos;ve worked in two labs here applying ML to genomics and medical imaging.
-            </p>
-            <p>
-              I got into ML partly because I found it fascinating that so much of it comes down to linear algebra. A lot of what looks like magic is matrices being multiplied, and I like that. The part I keep coming back to is reliability, models can look great on a benchmark and still fall over when someone actually depends on them.
-            </p>
-            <p>
-              Outside of that: saxophone, jazz, bonsai, soccer, running, and a lot of history reading.
-            </p>
-          </div>
+              <section className="max-w-3xl mx-auto px-6 pt-10 pb-8">
+        <h2 className="font-display text-2xl font-semibold mb-6">About</h2>
+        <div className="flex gap-4 mb-8">
+          <img src="/bennett.jpg" alt="Bennett Lee" className="w-1/2 rounded-2xl object-cover" />
+          <img src="/bennett-2.jpg" alt="One of my bonsai" className="w-1/2 rounded-2xl object-cover" />
+        </div>
+        <h3 className="font-display text-3xl font-bold tracking-tight mb-5">Hi, I&apos;m Bennett</h3>
+        <div className="space-y-4 text-neutral-700 leading-relaxed">
+          <p>
+            I&apos;m from Singapore and I study CS and statistics at Michigan. I spent a year and a half in the Singapore army before that.
+          </p>
+          <p>
+            These days I mostly work on large language model training and deployment. I did post-training and evaluation at the Home Team Science and Technology Agency in Singapore over a summer, I build agent infrastructure in my own time, and I&apos;ve worked in two labs at Michigan Medicine applying ML to genomics and medical imaging.
+          </p>
+          <p>
+            I got into machine learning partly because I found it fascinating that so much of it comes down to linear algebra. A lot of what looks like magic is matrices being multiplied, and I like that. It is also the bedrock behind artificial intelligence, and I think it has the potential to do a lot of good across healthcare, finance, technology, public services, and plenty of other sectors.
+          </p>
+          <p>
+            In my free time I play soccer and volleyball, run, and wind down with the saxophone, growing bonsai, and reading about history and geopolitics.
+          </p>
         </div>
       </section>
 
@@ -139,8 +140,8 @@ export default function Home() {
         </p>
         <div className="flex flex-wrap gap-3">
           <a href="mailto:bennettleesm@gmail.com" className="px-4 py-2 rounded-lg bg-accent text-white text-sm font-medium shadow-sm hover:bg-accent-hover hover:shadow-md hover:-translate-y-0.5 transition-all duration-150">bennettleesm@gmail.com</a>
-          <a href="https://www.linkedin.com/in/bennettleesm/" target="_blank" rel="noopener noreferrer" className="px-4 py-2 rounded-lg border border-neutral-300 text-neutral-700 text-sm font-medium hover:border-accent hover:text-accent transition-colors">LinkedIn</a>
-          <a href="https://github.com/Bennettleesm123" target="_blank" rel="noopener noreferrer" className="px-4 py-2 rounded-lg border border-neutral-300 text-neutral-700 text-sm font-medium hover:border-accent hover:text-accent transition-colors">GitHub</a>
+          <a href="https://www.linkedin.com/in/bennettleesm/" target="_blank" rel="noopener noreferrer" className="px-4 py-2 rounded-lg bg-accent text-white text-sm font-medium shadow-sm hover:bg-accent-hover hover:shadow-md hover:-translate-y-0.5 transition-all duration-150">LinkedIn</a>
+          <a href="https://github.com/Bennettleesm123" target="_blank" rel="noopener noreferrer" className="px-4 py-2 rounded-lg bg-accent text-white text-sm font-medium shadow-sm hover:bg-accent-hover hover:shadow-md hover:-translate-y-0.5 transition-all duration-150">GitHub</a>
         </div>
       </section>
 
