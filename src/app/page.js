@@ -135,8 +135,8 @@ export default function Home() {
 
       <section className="max-w-3xl mx-auto px-6 pt-6 pb-20">
         <h2 className="font-display text-2xl font-semibold mb-4">Contact</h2>
-        <p className="text-neutral-700 leading-relaxed mb-5 max-w-2xl">
-          Feel free to email me if you&apos;re down to chat or talk about anything here!
+                <p className="text-neutral-700 leading-relaxed max-w-2xl">
+          Feel free to reach out at <a href="mailto:bennettleesm@gmail.com" className="text-accent hover:text-accent-hover underline underline-offset-2 transition-colors">bennettleesm@gmail.com</a> if you&apos;re down to chat about anything here, or anything else really.
         </p>
         <div className="flex flex-wrap gap-3">
           <a href="mailto:bennettleesm@gmail.com" className="px-4 py-2 rounded-lg bg-accent text-white text-sm font-medium shadow-sm hover:bg-accent-hover hover:shadow-md hover:-translate-y-0.5 transition-all duration-150">bennettleesm@gmail.com</a>
