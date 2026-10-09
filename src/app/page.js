@@ -1,3 +1,5 @@
+import Typewriter from "./typewriter";
+
 const projects = [
   {
     title: "Phoenix — LLM Post-Training at HTX",
@@ -51,73 +53,76 @@ const projects = [
   },
 ];
 
+const linkClass = "text-sm text-ink underline-offset-4 hover:underline";
+
 export default function Home() {
   return (
-    <main className="min-h-screen bg-base pb-28 text-ink">
-
-      <section className="max-w-3xl mx-auto px-6 pt-20 pb-8">
-        <h1 className="font-display text-4xl sm:text-5xl font-bold tracking-tight">Bennett Lee</h1>
-        <p className="mt-4 text-lg text-muted leading-relaxed max-w-2xl">
-          I build and train AI systems for the real world, healthcare, public safety, and finance, and I care about making them genuinely useful to people.
-        </p>
-        <div className="mt-6 flex flex-wrap gap-3">
-          <a href="https://github.com/Bennettleesm123" target="_blank" rel="noopener noreferrer" className="px-4 py-2 rounded-lg bg-accent text-on-accent text-sm font-medium shadow-sm hover:bg-accent-hover hover:shadow-md hover:-translate-y-0.5 transition-all duration-150">GitHub</a>
-          <a href="https://www.linkedin.com/in/bennettleesm/" target="_blank" rel="noopener noreferrer" className="px-4 py-2 rounded-lg bg-accent text-on-accent text-sm font-medium shadow-sm hover:bg-accent-hover hover:shadow-md hover:-translate-y-0.5 transition-all duration-150">LinkedIn</a>
-          <a href="mailto:bennettleesm@gmail.com" className="px-4 py-2 rounded-lg bg-accent text-on-accent text-sm font-medium shadow-sm hover:bg-accent-hover hover:shadow-md hover:-translate-y-0.5 transition-all duration-150">Email</a>
-          <a href="/Bennett_Resume_PM.pdf" target="_blank" rel="noopener noreferrer" className="px-4 py-2 rounded-lg bg-accent text-on-accent text-sm font-medium shadow-sm hover:bg-accent-hover hover:shadow-md hover:-translate-y-0.5 transition-all duration-150">Resume</a>
+    <main className="min-h-screen bg-paper text-ink">
+      <header className="mx-auto max-w-3xl px-6 pt-8">
+        <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3">
+          <h1 className="text-4xl tracking-tight sm:text-5xl">Bennett Lee</h1>
+          <nav className="flex flex-wrap gap-x-5 gap-y-2" aria-label="Contact links">
+            <a href="https://github.com/Bennettleesm123" target="_blank" rel="noopener noreferrer" className={linkClass}>GitHub</a>
+            <a href="https://www.linkedin.com/in/bennettleesm/" target="_blank" rel="noopener noreferrer" className={linkClass}>LinkedIn</a>
+            <a href="mailto:bennettleesm@gmail.com" className={linkClass}>Email</a>
+            <a href="/Bennett_Resume_PM.pdf" target="_blank" rel="noopener noreferrer" className={linkClass}>Resume</a>
+          </nav>
         </div>
-      </section>
 
-      <section className="max-w-3xl mx-auto px-6 pt-6 pb-8">
-        <h2 className="font-display text-2xl font-semibold mb-4">Projects</h2>
-        <div className="space-y-5">
-          {projects.map((p) => (
-            <article key={p.title} className="rounded-2xl border border-line bg-surface p-6 shadow-sm hover:shadow-md hover:border-accent/40 transition-all duration-150">
-              {p.image ? (
-                <div className="mb-5 rounded-xl bg-chip flex justify-center py-6">
-                  <img src={p.image} alt={p.title} className="max-h-96 w-auto object-contain rounded-lg" />
-                </div>
+        <div className="relative mt-20 pb-16">
+          <div className="hero-dots pointer-events-none absolute -inset-x-6 -top-10 h-48" aria-hidden="true" />
+          <Typewriter />
+        </div>
+      </header>
+
+      <section className="mx-auto max-w-3xl border-t border-line px-6 py-14">
+        <h2 className="text-xs uppercase tracking-[0.18em] text-faint">Projects</h2>
+        <div>
+          {projects.map((project) => (
+            <article key={project.title} className="border-b border-line py-10">
+              {project.image ? (
+                <img src={project.image} alt={project.title} className="mb-6 max-h-80 w-full object-contain" />
               ) : null}
-              <div className="flex items-start justify-between gap-4">
-                <h3 className="font-display text-lg font-semibold">{p.title}</h3>
-                <span className="shrink-0 rounded-full bg-accent-soft px-3 py-1 text-xs font-medium text-ink">{p.status}</span>
+              <div className="flex items-baseline justify-between gap-6">
+                <h3 className="text-xl tracking-tight">{project.title}</h3>
+                <p className="shrink-0 text-xs uppercase tracking-[0.14em] text-faint">{project.status}</p>
               </div>
-              {p.metric ? <p className="mt-2 text-sm font-medium text-accent">{p.metric}</p> : null}
-              <p className="mt-3 text-muted leading-relaxed">{p.impact}</p>
-              <p className="mt-3 text-sm text-faint leading-relaxed">{p.technical}</p>
-              <div className="mt-4 flex flex-wrap items-center gap-2">
-                {p.tags.map((t) => (
-                  <span key={t} className="rounded-md bg-chip px-2.5 py-1 text-xs text-muted">{t}</span>
-                ))}
-                {p.link ? <a href={p.link} target="_blank" rel="noopener noreferrer" className="ml-auto text-sm font-medium text-accent hover:text-accent-hover transition-colors">View on GitHub →</a> : null}
-              </div>
+              {project.metric ? <p className="mt-3 font-mono text-sm text-ink">{project.metric}</p> : null}
+              <p className="mt-4 leading-relaxed text-muted">{project.impact}</p>
+              <p className="mt-3 text-sm leading-relaxed text-faint">{project.technical}</p>
+              <p className="mt-4 font-mono text-xs text-faint">{project.tags.join("  ·  ")}</p>
+              {project.link ? (
+                <a href={project.link} target="_blank" rel="noopener noreferrer" className={`${linkClass} mt-4 inline-block`}>
+                  View on GitHub
+                </a>
+              ) : null}
             </article>
           ))}
         </div>
       </section>
 
-      <section className="max-w-3xl mx-auto px-6 pt-6 pb-8">
-        <h2 className="font-display text-2xl font-semibold mb-4">Research</h2>
-        <div className="space-y-4">
-          <div className="rounded-xl border border-line bg-surface p-5">
-            <h3 className="font-display font-semibold">Otolaryngology &amp; Translational Oncology Lab, Michigan</h3>
-            <p className="mt-2 text-sm text-muted leading-relaxed">Python pipelines for mutation and copy-number analysis across tumor-normal sequencing samples, plus QC workflows that catch contamination before it reaches downstream genomic analysis.</p>
+      <section className="mx-auto max-w-3xl border-b border-line px-6 py-14">
+        <h2 className="text-xs uppercase tracking-[0.18em] text-faint">Research</h2>
+        <div className="mt-8 space-y-8">
+          <div>
+            <h3 className="text-lg tracking-tight">Otolaryngology &amp; Translational Oncology Lab, Michigan</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted">Python pipelines for mutation and copy-number analysis across tumor-normal sequencing samples, plus QC workflows that catch contamination before it reaches downstream genomic analysis.</p>
           </div>
-          <div className="rounded-xl border border-line bg-surface p-5">
-            <h3 className="font-display font-semibold">Computational Vascular Biomechanics Lab, Michigan</h3>
-            <p className="mt-2 text-sm text-muted leading-relaxed">Helped train an nnU-Net 3D segmentation model to reconstruct coronary microvasculature from expert-annotated microscopy data, reaching about 83% overlap with expert annotations.</p>
+          <div>
+            <h3 className="text-lg tracking-tight">Computational Vascular Biomechanics Lab, Michigan</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted">Helped train an nnU-Net 3D segmentation model to reconstruct coronary microvasculature from expert-annotated microscopy data, reaching about 83% overlap with expert annotations.</p>
           </div>
         </div>
       </section>
 
-              <section className="max-w-3xl mx-auto px-6 pt-10 pb-8">
-        <h2 className="font-display text-2xl font-semibold mb-6">About</h2>
-        <div className="flex gap-4 mb-8">
-          <img src="/bennett.jpg" alt="Bennett Lee" className="w-1/2 rounded-2xl object-cover" />
-          <img src="/bennett-2.jpg" alt="One of my bonsai" className="w-1/2 rounded-2xl object-cover" />
+      <section className="mx-auto max-w-3xl border-b border-line px-6 py-14">
+        <h2 className="text-xs uppercase tracking-[0.18em] text-faint">About</h2>
+        <div className="mt-8 flex gap-3">
+          <img src="/bennett.jpg" alt="Bennett Lee" className="h-56 w-1/2 object-cover sm:h-72" />
+          <img src="/bennett-2.jpg" alt="One of my bonsai" className="h-56 w-1/2 object-cover sm:h-72" />
         </div>
-        <h3 className="font-display text-3xl font-bold tracking-tight mb-5">Hi, I&apos;m Bennett</h3>
-        <div className="space-y-4 text-muted leading-relaxed">
+        <h3 className="mt-8 text-3xl tracking-tight">Hi, I&apos;m Bennett</h3>
+        <div className="mt-5 space-y-4 leading-relaxed text-muted">
           <p>
             I&apos;m from Singapore and I study CS and statistics at Michigan. I spent a year and a half in the Singapore army before that.
           </p>
@@ -133,15 +138,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="max-w-3xl mx-auto px-6 pt-6 pb-20">
-        <h2 className="font-display text-2xl font-semibold mb-4">Contact</h2>
-                <p className="text-muted leading-relaxed max-w-2xl">
-          Feel free to reach out at <a href="mailto:bennettleesm@gmail.com" className="text-accent hover:text-accent-hover underline underline-offset-2 transition-colors">bennettleesm@gmail.com</a> if you&apos;re down to chat about anything!
+      <section className="mx-auto max-w-3xl px-6 py-14">
+        <h2 className="text-xs uppercase tracking-[0.18em] text-faint">Contact</h2>
+        <p className="mt-6 max-w-2xl leading-relaxed text-muted">
+          Feel free to reach out at <a href="mailto:bennettleesm@gmail.com" className="text-ink underline underline-offset-4">bennettleesm@gmail.com</a> if you&apos;re down to chat about anything.
         </p>
-        <div className="flex flex-wrap gap-3">
-        </div>
       </section>
-
     </main>
   );
 }
