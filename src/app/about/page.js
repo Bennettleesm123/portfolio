@@ -1,3 +1,4 @@
+import AskBox from "../ask-box";
 import Section from "../section";
 
 export const metadata = {
@@ -13,6 +14,7 @@ export default function AboutPage() {
         <p>Most of my time goes to training language models and building agents.</p>
         <p>Away from that I play soccer and volleyball, run, and wind down with the saxophone, bonsai, and history.</p>
       </div>
+      <AskBox />
       <p className="mt-8 text-sm text-muted">
         <a href="mailto:bennettleesm@gmail.com" className="text-ink underline underline-offset-4">
           bennettleesm@gmail.com
