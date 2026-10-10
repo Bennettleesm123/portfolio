@@ -1,4 +1,3 @@
-import NextTokens from "./next-tokens";
 import SiteNav from "./site-nav";
 import Welcome from "./welcome";
 
@@ -8,9 +7,8 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col bg-paper text-ink">
       <SiteNav heading />
-      <div className="flex flex-1 flex-col items-center justify-center gap-14 px-6 py-12">
+      <div className="flex flex-1 items-center justify-center px-6 py-16">
         <Welcome />
-        <NextTokens />
       </div>
       <footer className="flex items-center justify-center gap-8 pb-10">
         <a href="https://github.com/Bennettleesm123" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className={iconClass}>
