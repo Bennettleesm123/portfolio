@@ -1,149 +1,33 @@
-import Typewriter from "./typewriter";
+import SiteNav from "./site-nav";
+import Welcome from "./welcome";
 
-const projects = [
-  {
-    title: "Phoenix — LLM Post-Training at HTX",
-    status: "Shipped",
-    image: "/phoenix.png",
-    metric: "12.7% domain gain · 10,000+ personnel · ~20% workflow improvement",
-    impact: "Fine-tuned a large language model for legal work at Singapore's Home Team Science and Technology Agency. The models went into AI tooling deployed to over 10,000 public-safety personnel, improving tested workflows by around 20%.",
-    technical: "Investigated catastrophic forgetting across LoRA, CPT, and full-parameter SFT, lifting legal-domain performance 12.7% while holding general-capability loss under 3%. Trained across 8× H100s with FSDP2, sequence packing, and fused kernels.",
-    tags: ["PyTorch", "FSDP2", "LoRA/PEFT", "lm-eval-harness"],
-    link: null,
-  },
-  {
-    title: "KTP Life App",
-    status: "Shipped",
-    image: "/ktp-app.png",
-    metric: "20+ pledges · 200+ members",
-    impact: "Helped develop the pledge-class overview for Kappa Theta Pi's app, Michigan's premier technology fraternity: a live points ring, leaderboard, activity log, and strikes tracker. The app is used by rushees and over 200 members for everything to do with the fraternity.",
-    technical: "Designed the UI in Figma, built it in React and TypeScript, and migrated the feature off hardcoded demo data onto Firestore so class progress syncs across users in real time.",
-    tags: ["React", "TypeScript", "Firebase", "Figma"],
-    link: null,
-  },
-  {
-    title: "Agent Orchestrator",
-    status: "Shipped",
-    image: null,
-    metric: null,
-    impact: "A multi-agent system that takes a complex request, breaks it into subtasks, and routes each one to the right specialist agent, research, web search, email, or sandboxed code execution.",
-    technical: "LangGraph orchestration with SQL task memory, semantic caching over embeddings, Arize Phoenix tracing, and network-isolated ephemeral Docker containers for running model-generated code safely.",
-    tags: ["Python", "LangGraph", "Docker", "Arize Phoenix"],
-    link: "https://github.com/Bennettleesm123/agent-orchestrator",
-  },
-  {
-    title: "Agent Reliability Harness",
-    status: "Shipped",
-    image: null,
-    metric: null,
-    impact: "A harness that makes LLM agents trustworthy, reliable, and useful for the specific jobs you point them at.",
-    technical: "Framework-free, with schema-validated tools, permission gating and human approval, persistent tracing, deterministic replay, failure injection, and automated regression evaluation across runs.",
-    tags: ["Python", "Pydantic", "Docker", "Ollama"],
-    link: "https://github.com/Bennettleesm123/agent-reliability-harness",
-  },
-  {
-    title: "Caregiver Portal",
-    status: "In progress",
-    image: null,
-    metric: null,
-    impact: "A free tool helping Singaporean families find the eldercare subsidies they qualify for. Nearly half of caregivers report not knowing what support exists, while the schemes themselves sit behind a maze of overlapping eligibility rules.",
-    technical: "A deterministic rules engine over a hand-curated dataset of official schemes. Chose plain logic over an LLM so eligibility guidance stays accurate, explainable, and traceable to the official source.",
-    tags: ["Next.js", "React", "Tailwind"],
-    link: null,
-  },
-];
-
-const linkClass = "text-sm text-ink underline-offset-4 hover:underline";
+const iconClass = "text-ink transition-opacity hover:opacity-45";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-paper text-ink">
-      <header className="mx-auto max-w-3xl px-6 pt-8">
-        <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3">
-          <h1 className="text-4xl tracking-tight sm:text-5xl">Bennett Lee</h1>
-          <nav className="flex flex-wrap gap-x-5 gap-y-2" aria-label="Contact links">
-            <a href="https://github.com/Bennettleesm123" target="_blank" rel="noopener noreferrer" className={linkClass}>GitHub</a>
-            <a href="https://www.linkedin.com/in/bennettleesm/" target="_blank" rel="noopener noreferrer" className={linkClass}>LinkedIn</a>
-            <a href="mailto:bennettleesm@gmail.com" className={linkClass}>Email</a>
-            <a href="/Bennett_Resume_PM.pdf" target="_blank" rel="noopener noreferrer" className={linkClass}>Resume</a>
-          </nav>
-        </div>
-
-        <div className="relative mt-20 pb-16">
-          <div className="hero-dots pointer-events-none absolute -inset-x-6 -top-10 h-48" aria-hidden="true" />
-          <Typewriter />
-        </div>
-      </header>
-
-      <section className="mx-auto max-w-3xl border-t border-line px-6 py-14">
-        <h2 className="text-xs uppercase tracking-[0.18em] text-faint">Projects</h2>
-        <div>
-          {projects.map((project) => (
-            <article key={project.title} className="border-b border-line py-10">
-              {project.image ? (
-                <img src={project.image} alt={project.title} className="mb-6 max-h-80 w-full object-contain" />
-              ) : null}
-              <div className="flex items-baseline justify-between gap-6">
-                <h3 className="text-xl tracking-tight">{project.title}</h3>
-                <p className="shrink-0 text-xs uppercase tracking-[0.14em] text-faint">{project.status}</p>
-              </div>
-              {project.metric ? <p className="mt-3 font-mono text-sm text-ink">{project.metric}</p> : null}
-              <p className="mt-4 leading-relaxed text-muted">{project.impact}</p>
-              <p className="mt-3 text-sm leading-relaxed text-faint">{project.technical}</p>
-              <p className="mt-4 font-mono text-xs text-faint">{project.tags.join("  ·  ")}</p>
-              {project.link ? (
-                <a href={project.link} target="_blank" rel="noopener noreferrer" className={`${linkClass} mt-4 inline-block`}>
-                  View on GitHub
-                </a>
-              ) : null}
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-3xl border-b border-line px-6 py-14">
-        <h2 className="text-xs uppercase tracking-[0.18em] text-faint">Research</h2>
-        <div className="mt-8 space-y-8">
-          <div>
-            <h3 className="text-lg tracking-tight">Otolaryngology &amp; Translational Oncology Lab, Michigan</h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted">Python pipelines for mutation and copy-number analysis across tumor-normal sequencing samples, plus QC workflows that catch contamination before it reaches downstream genomic analysis.</p>
-          </div>
-          <div>
-            <h3 className="text-lg tracking-tight">Computational Vascular Biomechanics Lab, Michigan</h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted">Helped train an nnU-Net 3D segmentation model to reconstruct coronary microvasculature from expert-annotated microscopy data, reaching about 83% overlap with expert annotations.</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-3xl border-b border-line px-6 py-14">
-        <h2 className="text-xs uppercase tracking-[0.18em] text-faint">About</h2>
-        <div className="mt-8 flex gap-3">
-          <img src="/bennett.jpg" alt="Bennett Lee" className="h-56 w-1/2 object-cover sm:h-72" />
-          <img src="/bennett-2.jpg" alt="One of my bonsai" className="h-56 w-1/2 object-cover sm:h-72" />
-        </div>
-        <h3 className="mt-8 text-3xl tracking-tight">Hi, I&apos;m Bennett</h3>
-        <div className="mt-5 space-y-4 leading-relaxed text-muted">
-          <p>
-            I&apos;m from Singapore and I study CS and statistics at Michigan. I spent a year and a half in the Singapore army before that.
-          </p>
-          <p>
-            These days I mostly work on large language model training and deployment. I did post-training and evaluation at the Home Team Science and Technology Agency in Singapore over a summer, I build agent infrastructure in my own time, and I&apos;ve worked in two labs at Michigan Medicine applying ML to genomics and medical imaging.
-          </p>
-          <p>
-            I got into machine learning partly because I found it fascinating that so much of it comes down to linear algebra. A lot of what looks like magic is matrices being multiplied, and I like that. It is also the bedrock behind artificial intelligence, and I think it has the potential to do a lot of good across healthcare, finance, technology, public services, and plenty of other sectors.
-          </p>
-          <p>
-            In my free time I play soccer and volleyball, run, and wind down with the saxophone, growing bonsai, and reading about history and geopolitics.
-          </p>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-3xl px-6 py-14">
-        <h2 className="text-xs uppercase tracking-[0.18em] text-faint">Contact</h2>
-        <p className="mt-6 max-w-2xl leading-relaxed text-muted">
-          Feel free to reach out at <a href="mailto:bennettleesm@gmail.com" className="text-ink underline underline-offset-4">bennettleesm@gmail.com</a> if you&apos;re down to chat about anything.
-        </p>
-      </section>
+    <main className="flex min-h-screen flex-col bg-paper text-ink">
+      <SiteNav heading />
+      <div className="flex flex-1 items-center justify-center px-6 py-16">
+        <Welcome />
+      </div>
+      <footer className="flex items-center justify-center gap-8 pb-10">
+        <a href="https://github.com/Bennettleesm123" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className={iconClass}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2C6.48 2 2 6.58 2 12.26c0 4.52 2.87 8.35 6.84 9.7.5.1.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.36 1.12 2.94.86.09-.67.35-1.12.63-1.38-2.22-.26-4.55-1.14-4.55-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.27 2.75 1.05a9.3 9.3 0 0 1 5 0c1.91-1.32 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.8-4.57 5.06.36.32.68.94.68 1.9 0 1.38-.01 2.49-.01 2.83 0 .26.18.59.69.48A10.04 10.04 0 0 0 22 12.26C22 6.58 17.52 2 12 2Z" />
+          </svg>
+        </a>
+        <a href="https://www.linkedin.com/in/bennettleesm/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className={iconClass}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8.5h4V24h-4V8.5zM8.5 8.5h3.8v2.1h.05c.53-1 1.82-2.1 3.75-2.1 4.01 0 4.75 2.64 4.75 6.07V24h-4v-7.7c0-1.84-.03-4.2-2.56-4.2-2.56 0-2.95 2-2.95 4.06V24h-4V8.5z" />
+          </svg>
+        </a>
+        <a href="mailto:bennettleesm@gmail.com" aria-label="Email" className={iconClass}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="14" rx="1.5" />
+            <path d="M4 7l8 6 8-6" />
+          </svg>
+        </a>
+      </footer>
     </main>
   );
 }

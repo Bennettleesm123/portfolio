@@ -25,12 +25,6 @@ body {
   }
 }
 
-.hero-dots {
-  background-image: radial-gradient(circle, #111 0.7px, transparent 0.85px);
-  background-size: 13px 13px;
-  mask-image: linear-gradient(to bottom, #000 0%, transparent 78%);
-}
-
 @media (prefers-reduced-motion: reduce) {
   .type-cursor {
     animation: none;
