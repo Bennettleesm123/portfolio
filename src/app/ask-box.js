@@ -65,9 +65,8 @@ export default function AskBox() {
               key={item.id}
               type="button"
               aria-pressed={active}
-              disabled={!ready}
               onClick={() => setMood(item.id)}
-              className={active ? "text-ink underline underline-offset-4" : "text-faint hover:text-ink disabled:hover:text-faint"}
+              className={active ? "text-ink underline underline-offset-4" : "text-faint hover:text-ink"}
             >
               {item.label}
             </button>
