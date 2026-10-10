@@ -1,52 +1,92 @@
+export const experience = [
+  {
+    place: "University of Michigan — Otolaryngology & Translational Oncology Lab",
+    role: "Computational Researcher",
+  },
+  {
+    place: "Home Team Science and Technology Agency (HTX)",
+    role: "Machine Learning Engineer",
+  },
+  {
+    place: "University of Michigan — Computational Vascular Biomechanics Lab",
+    role: "Machine Learning Researcher",
+  },
+  {
+    place: "Singapore Armed Forces",
+    role: "Army Commando Officer",
+  },
+  {
+    place: "Cisco Systems",
+    role: "Project Intern",
+  },
+];
+
 export const projects = [
   {
     title: "Phoenix — LLM Post-Training at HTX",
-    status: "Shipped",
-    image: "/phoenix.png",
-    metric: "12.7% domain gain · 10,000+ personnel · ~20% workflow improvement",
-    impact: "Fine-tuned a large language model for legal work at Singapore's Home Team Science and Technology Agency. The models went into AI tooling deployed to over 10,000 public-safety personnel, improving tested workflows by around 20%.",
-    technical: "Investigated catastrophic forgetting across LoRA, CPT, and full-parameter SFT, lifting legal-domain performance 12.7% while holding general-capability loss under 3%. Trained across 8× H100s with FSDP2, sequence packing, and fused kernels.",
-    tags: ["PyTorch", "FSDP2", "LoRA/PEFT", "lm-eval-harness"],
-    link: null,
+    summary:
+      "Fine-tuned a large language model for legal work at Singapore's Home Team Science and Technology Agency. The models went into AI tooling used by public-safety personnel.",
   },
   {
     title: "KTP Life App",
-    status: "Shipped",
-    image: "/ktp-app.png",
-    metric: "20+ pledges · 200+ members",
-    impact: "Helped develop the pledge-class overview for Kappa Theta Pi's app, Michigan's premier technology fraternity: a live points ring, leaderboard, activity log, and strikes tracker. The app is used by rushees and over 200 members for everything to do with the fraternity.",
-    technical: "Designed the UI in Figma, built it in React and TypeScript, and migrated the feature off hardcoded demo data onto Firestore so class progress syncs across users in real time.",
-    tags: ["React", "TypeScript", "Firebase", "Figma"],
-    link: null,
+    summary:
+      "Pledge-class overview for Kappa Theta Pi's app: a points ring, leaderboard, activity log, and strikes tracker for rushees and members.",
   },
   {
     title: "Agent Orchestrator",
-    status: "Shipped",
-    image: null,
-    metric: null,
-    impact: "A multi-agent system that takes a complex request, breaks it into subtasks, and routes each one to the right specialist agent, research, web search, email, or sandboxed code execution.",
-    technical: "LangGraph orchestration with SQL task memory, semantic caching over embeddings, Arize Phoenix tracing, and network-isolated ephemeral Docker containers for running model-generated code safely.",
-    tags: ["Python", "LangGraph", "Docker", "Arize Phoenix"],
+    summary:
+      "A multi-agent system that breaks a request into subtasks and routes each one to a specialist for research, web search, email, or sandboxed code.",
     link: "https://github.com/Bennettleesm123/agent-orchestrator",
   },
   {
     title: "Agent Reliability Harness",
-    status: "Shipped",
-    image: null,
-    metric: null,
-    impact: "A harness that makes LLM agents trustworthy, reliable, and useful for the specific jobs you point them at.",
-    technical: "Framework-free, with schema-validated tools, permission gating and human approval, persistent tracing, deterministic replay, failure injection, and automated regression evaluation across runs.",
-    tags: ["Python", "Pydantic", "Docker", "Ollama"],
+    summary:
+      "A harness for making LLM agents reliable on a specific job, with validated tools, human approval, tracing, and replay.",
     link: "https://github.com/Bennettleesm123/agent-reliability-harness",
   },
   {
     title: "Caregiver Portal",
-    status: "In progress",
-    image: null,
-    metric: null,
-    impact: "A free tool helping Singaporean families find the eldercare subsidies they qualify for. Nearly half of caregivers report not knowing what support exists, while the schemes themselves sit behind a maze of overlapping eligibility rules.",
-    technical: "A deterministic rules engine over a hand-curated dataset of official schemes. Chose plain logic over an LLM so eligibility guidance stays accurate, explainable, and traceable to the official source.",
-    tags: ["Next.js", "React", "Tailwind"],
-    link: null,
+    summary:
+      "A free tool that helps Singaporean families find the eldercare subsidies they qualify for, using official eligibility rules.",
+  },
+  {
+    title: "RAG Knowledge Assistant",
+    summary:
+      "An assistant that reads PDFs, web pages, and YouTube transcripts and answers with source citations.",
+  },
+  {
+    title: "Autonomous Logistics Trolley",
+    summary:
+      "An autonomous trolley for school laboratories, built for the Singapore Science and Engineering Fair.",
+  },
+];
+
+export const skills = [
+  {
+    label: "AI/ML",
+    items: [
+      "PyTorch",
+      "Hugging Face Transformers",
+      "Axolotl",
+      "LangGraph",
+      "Arize Phoenix",
+      "Qdrant",
+      "ChromaDB",
+      "Ollama",
+    ],
+  },
+  {
+    label: "Programming/Systems",
+    items: [
+      "Python",
+      "C++",
+      "SQL",
+      "Git",
+      "Linux",
+      "Docker",
+      "NumPy",
+      "Pandas",
+      "Google Cloud Platform",
+    ],
   },
 ];
