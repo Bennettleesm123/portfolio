@@ -2,12 +2,12 @@ const MAX_ENTRIES = 200;
 
 const replies = new Map();
 
-export function cacheKey(question, mood) {
-  return `${mood}\n${question.trim().toLowerCase()}`;
+export function cacheKey(question) {
+  return question.trim().toLowerCase();
 }
 
-export function getCachedReply(question, mood) {
-  const key = cacheKey(question, mood);
+export function getCachedReply(question) {
+  const key = cacheKey(question);
   if (!replies.has(key)) return null;
   const reply = replies.get(key);
   replies.delete(key);
@@ -15,8 +15,8 @@ export function getCachedReply(question, mood) {
   return reply;
 }
 
-export function setCachedReply(question, mood, reply) {
-  const key = cacheKey(question, mood);
+export function setCachedReply(question, reply) {
+  const key = cacheKey(question);
   if (replies.has(key)) replies.delete(key);
   replies.set(key, reply);
   while (replies.size > MAX_ENTRIES) {

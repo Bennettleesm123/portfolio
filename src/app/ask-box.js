@@ -2,12 +2,6 @@
 
 import { useEffect, useState } from "react";
 
-const MOODS = [
-  { id: "cheerful", label: "cheerful" },
-  { id: "frustrated", label: "frustrated" },
-  { id: "bored", label: "bored" },
-];
-
 const EXAMPLES = [
   { label: "where he goes to school", question: "Where does Bennett go to school?" },
   { label: "what Phoenix is", question: "What is Phoenix?" },
@@ -16,7 +10,6 @@ const EXAMPLES = [
 
 export default function AskBox() {
   const [configured, setConfigured] = useState(null);
-  const [mood, setMood] = useState("cheerful");
   const [question, setQuestion] = useState("");
   const [latest, setLatest] = useState(null);
   const [sending, setSending] = useState(false);
@@ -47,7 +40,7 @@ export default function AskBox() {
       const response = await fetch("/api/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: text, mood }),
+        body: JSON.stringify({ question: text }),
       });
       const data = await response.json();
       const reply = typeof data.reply === "string" && data.reply.trim() ? data.reply.trim() : data.error;
@@ -63,23 +56,7 @@ export default function AskBox() {
 
   return (
     <div className="mt-10 max-w-xl">
-      <div className="flex gap-4 font-mono text-xs" role="group" aria-label="Mood">
-        {MOODS.map((item) => {
-          const active = mood === item.id;
-          return (
-            <button
-              key={item.id}
-              type="button"
-              aria-pressed={active}
-              onClick={() => setMood(item.id)}
-              className={active ? "text-ink underline underline-offset-4" : "text-faint hover:text-ink"}
-            >
-              {item.label}
-            </button>
-          );
-        })}
-      </div>
-      <form onSubmit={onSubmit} className="mt-3 flex items-baseline gap-4 border-b border-line font-mono">
+      <form onSubmit={onSubmit} className="flex items-baseline gap-4 border-b border-line font-mono">
         <label className="sr-only" htmlFor="ask-bennett">
           Ask about Bennett
         </label>
