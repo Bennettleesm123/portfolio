@@ -1,7 +1,6 @@
 import { getCachedReply, setCachedReply } from "./cache";
 import {
-  DECLINE_HEAVY,
-  isHeavyAsk,
+  classifyDecline,
   MAX_OUTPUT_TOKENS,
   MAX_QUESTION_CHARS,
   MODEL,
@@ -35,8 +34,9 @@ export async function POST(request) {
     return Response.json({ error: "Ask a shorter question." }, { status: 400 });
   }
 
-  if (isHeavyAsk(question)) {
-    return Response.json({ reply: DECLINE_HEAVY });
+  const decline = classifyDecline(question);
+  if (decline) {
+    return Response.json({ reply: decline });
   }
 
   const cached = getCachedReply(question);
