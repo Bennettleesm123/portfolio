@@ -1,5 +1,5 @@
 import Section from "../section";
-import { experience } from "../content";
+import { experience } from "../../data/profile";
 
 export const metadata = {
   title: "Experience — Bennett Lee",

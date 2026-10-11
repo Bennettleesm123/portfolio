@@ -1,5 +1,5 @@
 import Section from "../section";
-import { projects } from "../content";
+import { projects } from "../../data/profile";
 
 export const metadata = {
   title: "Projects — Bennett Lee",
