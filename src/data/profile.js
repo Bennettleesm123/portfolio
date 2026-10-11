@@ -140,11 +140,11 @@ export const profile = {
   htx: {
     organization: [
       "Machine Learning Engineer / Machine Learning intern at the Home Team Science and Technology Agency (HTX) in Singapore, summer 2026 (June 2026 to August 2026).",
-      "He worked with the Q Team.",
+      "He worked with the Q Team. Say 'worked with,' not that he belonged to the Q Team or owned its systems.",
       "Working with the Q Team does not mean the Q Team owned Phoenix, owned deployment, or owned production systems.",
     ],
     phoenix_context: [
-      "Phoenix is HTX's broader sovereign / public-sector AI and LLM effort for Singapore and Home Team use cases.",
+      "Phoenix is HTX's broader sovereign / public-sector AI and LLM effort for Singapore and Home Team use cases. It is not a legal model.",
       "Bennett's internship work was related to Phoenix. He did not create Phoenix. He did not train the entire production Phoenix model.",
       "Phoenix is not a legal fine-tuned model, and it is not only about Singapore law. Legal-domain training experiments were one research component inside that broader effort.",
       "Do not describe Phoenix itself as the experimental model he personally trained.",
@@ -156,8 +156,8 @@ export const profile = {
       "Legal/domain data consisted of Singapore statute-related QA / legal-domain data. Replay or general-domain data was mixed in to preserve broader capabilities.",
     ],
     experimental_model: [
-      "The controlled experimental setup for that post-training study was a 24B-parameter Mistral model.",
-      "That 24B Mistral model was not the Phoenix production model. It was used to study post-training behavior and tradeoffs.",
+      "The controlled experimental setup for that post-training study was a 24B-parameter Mistral model, and that experimental model was not the Phoenix production model.",
+      "It was used to study post-training behavior and tradeoffs.",
       "Resumes separately describe experiments on a 24B-parameter LLM across SFT and RL/post-training. Do not treat that resume line as a claim that he trained production Phoenix, and do not collapse it with the legal-mixture study into one production training run.",
     ],
     engineering: [
@@ -192,7 +192,7 @@ export const profile = {
     relationship: "Independent project. Not part of HTX and not part of HTX Phoenix.",
     summary: [
       "Python and LangGraph. Automates multi-step research workflows: web and arXiv retrieval, tool use, Gmail actions, and sandboxed code execution, with memory, caching, and routing.",
-      "Uses Arize Phoenix, the open-source AI observability / tracing / evaluation tool, for tracing and observability.",
+      "Uses Arize Phoenix, the open-source AI observability / tracing / evaluation tool, for tracing and observability. Arize Phoenix is unrelated to HTX Phoenix.",
       "Resumes also list SQL task memory, semantic caching, Docker, and Streamlit on this project.",
       "GitHub: https://github.com/Bennettleesm123/agent-orchestrator",
     ],

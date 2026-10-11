@@ -49,7 +49,7 @@ export async function POST(request) {
         model: MODEL,
         reasoning_effort: "none",
         max_tokens: MAX_OUTPUT_TOKENS,
-        temperature: 0.4,
+        temperature: 0.2,
         messages: [
           { role: "system", content: systemPrompt(mood) },
           { role: "user", content: question },
