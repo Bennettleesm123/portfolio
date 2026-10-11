@@ -8,6 +8,12 @@ const MOODS = [
   { id: "bored", label: "bored" },
 ];
 
+const EXAMPLES = [
+  { label: "where he goes to school", question: "Where does Bennett go to school?" },
+  { label: "what Phoenix is", question: "What is Phoenix?" },
+  { label: "the capital of Italy", question: "What's the capital of Italy?" },
+];
+
 export default function AskBox() {
   const [configured, setConfigured] = useState(null);
   const [mood, setMood] = useState("cheerful");
@@ -90,6 +96,22 @@ export default function AskBox() {
           ask
         </button>
       </form>
+      <p className="mt-3 font-mono text-xs text-faint">
+        you can ask{" "}
+        {EXAMPLES.map((example, index) => (
+          <span key={example.question}>
+            {index > 0 ? " · " : null}
+            <button
+              type="button"
+              onClick={() => setQuestion(example.question)}
+              disabled={!ready || sending}
+              className="hover:text-ink disabled:hover:text-faint"
+            >
+              {example.label}
+            </button>
+          </span>
+        ))}
+      </p>
       {configured === false ? <p className="mt-3 font-mono text-xs text-faint">Not configured.</p> : null}
       {turns.length > 0 ? (
         <div className="mt-2 border-t border-line font-mono text-sm">
