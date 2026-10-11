@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const FACADES = ["i train models", "i love machine learning", "i build agents"];
+const FACADES = ["I train models", "I love machine learning", "I build agents"];
 
 const INPUT_Y = [32, 84, 136];
 const HIDDEN_Y = [18, 62, 106, 150];
