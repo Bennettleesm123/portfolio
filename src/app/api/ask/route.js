@@ -1,5 +1,12 @@
 import { getCachedReply, setCachedReply } from "./cache";
-import { MAX_OUTPUT_TOKENS, MAX_QUESTION_CHARS, MODEL, MOODS, systemPrompt } from "./facts";
+import {
+  DECLINE_HEAVY,
+  isHeavyAsk,
+  MAX_OUTPUT_TOKENS,
+  MAX_QUESTION_CHARS,
+  MODEL,
+  systemPrompt,
+} from "./facts";
 import { allowQuestion, clientIp } from "./limit";
 
 export const runtime = "nodejs";
@@ -28,9 +35,11 @@ export async function POST(request) {
     return Response.json({ error: "Ask a shorter question." }, { status: 400 });
   }
 
-  const mood = MOODS.includes(body?.mood) ? body.mood : "cheerful";
+  if (isHeavyAsk(question)) {
+    return Response.json({ reply: DECLINE_HEAVY });
+  }
 
-  const cached = getCachedReply(question, mood);
+  const cached = getCachedReply(question);
   if (cached) {
     return Response.json({ reply: cached });
   }
@@ -57,7 +66,7 @@ export async function POST(request) {
         max_tokens: MAX_OUTPUT_TOKENS,
         temperature: 0.2,
         messages: [
-          { role: "system", content: systemPrompt(mood) },
+          { role: "system", content: systemPrompt() },
           { role: "user", content: question },
         ],
       }),
@@ -75,7 +84,7 @@ export async function POST(request) {
     }
 
     const text = reply.trim();
-    setCachedReply(question, mood, text);
+    setCachedReply(question, text);
     return Response.json({ reply: text });
   } catch {
     return Response.json({ error: "Couldn't answer that just now." }, { status: 502 });
