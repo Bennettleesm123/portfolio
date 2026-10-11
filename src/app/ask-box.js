@@ -18,7 +18,7 @@ export default function AskBox() {
   const [configured, setConfigured] = useState(null);
   const [mood, setMood] = useState("cheerful");
   const [question, setQuestion] = useState("");
-  const [turns, setTurns] = useState([]);
+  const [latest, setLatest] = useState(null);
   const [sending, setSending] = useState(false);
 
   useEffect(() => {
@@ -51,9 +51,9 @@ export default function AskBox() {
       });
       const data = await response.json();
       const reply = typeof data.reply === "string" && data.reply.trim() ? data.reply.trim() : data.error;
-      setTurns((current) => [...current, { question: text, reply: reply || "Couldn't answer that just now." }]);
+      setLatest({ reply: reply || "Couldn't answer that just now." });
     } catch {
-      setTurns((current) => [...current, { question: text, reply: "Couldn't answer that just now." }]);
+      setLatest({ reply: "Couldn't answer that just now." });
     } finally {
       setSending(false);
     }
@@ -113,14 +113,11 @@ export default function AskBox() {
         ))}
       </p>
       {configured === false ? <p className="mt-3 font-mono text-xs text-faint">Not configured.</p> : null}
-      {turns.length > 0 ? (
+      {latest ? (
         <div className="mt-2 border-t border-line font-mono text-sm">
-          {turns.map((turn, index) => (
-            <div key={`${turn.question}-${index}`} className="border-b border-line py-3">
-              <p className="text-faint">{turn.question}</p>
-              <p className="mt-1 text-ink">{turn.reply}</p>
-            </div>
-          ))}
+          <div className="border-b border-line py-3">
+            <p className="text-ink">{latest.reply}</p>
+          </div>
         </div>
       ) : null}
     </div>

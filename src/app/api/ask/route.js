@@ -1,3 +1,4 @@
+import { getCachedReply, setCachedReply } from "./cache";
 import { MAX_OUTPUT_TOKENS, MAX_QUESTION_CHARS, MODEL, MOODS, systemPrompt } from "./facts";
 import { allowQuestion, clientIp } from "./limit";
 
@@ -28,6 +29,11 @@ export async function POST(request) {
   }
 
   const mood = MOODS.includes(body?.mood) ? body.mood : "cheerful";
+
+  const cached = getCachedReply(question, mood);
+  if (cached) {
+    return Response.json({ reply: cached });
+  }
 
   if (!allowQuestion(clientIp(request))) {
     return Response.json({ error: LIMIT_LINE }, { status: 429 });
@@ -68,7 +74,9 @@ export async function POST(request) {
       return Response.json({ error: "Couldn't answer that just now." }, { status: 502 });
     }
 
-    return Response.json({ reply: reply.trim() });
+    const text = reply.trim();
+    setCachedReply(question, mood, text);
+    return Response.json({ reply: text });
   } catch {
     return Response.json({ error: "Couldn't answer that just now." }, { status: 502 });
   }
