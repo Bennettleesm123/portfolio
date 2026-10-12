@@ -6,6 +6,8 @@ import { BAG, FIELD, HIDDEN, OUTPUT, SLOTS, insideBag } from "./hidden-net-data"
 const EASE_MS = 280;
 const HOLD_MS = 1400;
 const LENS_R = 34;
+// Turn this on to bring the three-slot bag back.
+const showBag = false;
 const BUBBLE_R = 58;
 const BURST = 32;
 const PUSH_TAU = 0.085;
@@ -223,7 +225,7 @@ export default function HiddenNet() {
   }
 
   function onDown(event) {
-    if (busyRef.current || dragRef.current) return;
+    if (!showBag || busyRef.current || dragRef.current) return;
     if (event.button != null && event.button !== 0) return;
     const point = pointFrom(event);
     pointerRef.current = point;
@@ -299,8 +301,8 @@ export default function HiddenNet() {
     <div className="flex w-full flex-col items-center overflow-x-hidden" data-bag-count={bag.length} data-lit={lit ? "1" : "0"}>
       <svg
         ref={svgRef}
-        viewBox="36 0 322 228"
-        className="-mt-1 h-auto w-full touch-none select-none font-mono"
+        viewBox={showBag ? "36 0 322 228" : "32 0 240 248"}
+        className="h-auto w-full touch-none select-none font-mono"
         role="img"
         aria-label="Hidden states inside the hidden layer"
         onPointerDown={onDown}
@@ -309,8 +311,8 @@ export default function HiddenNet() {
         onPointerUp={onUp}
         onPointerCancel={onUp}
       >
-        {[168, 179, 190, 201].map((x, index) => (
-          <line key={index} x1={184} y1="0" x2={x} y2="22" stroke="#111" strokeWidth="1" strokeOpacity="0.28" />
+        {(showBag ? [168, 179, 190, 201] : [136, 146, 158, 168]).map((x, index) => (
+          <line key={index} x1={showBag ? 184 : 152} y1="0" x2={x} y2="22" stroke="#111" strokeWidth="1" strokeOpacity="0.28" />
         ))}
         {HIDDEN.map((node, index) => {
           const gone = node.label && away.has(node.label);
@@ -342,17 +344,19 @@ export default function HiddenNet() {
             </g>
           );
         })}
-        <circle className="attn-node" cx={OUTPUT.x} cy={OUTPUT.y} r="6.5" fill={lit ? "#111" : "#fff"} stroke="#111" strokeWidth="1.25" />
-        <g data-bag="1">
-          {SLOTS.map((slot, index) => (
-            <line key={index} x1={BAG.x + 10} x2={BAG.x + BAG.w - 8} y1={slot.y + 8} y2={slot.y + 8} stroke="#111" strokeOpacity="0.28" />
-          ))}
-          {bag.map((label, index) => (
-            <text key={label} x={SLOTS[index].x} y={SLOTS[index].y} textAnchor="middle" fill="#111" fontSize="10" data-slot={label}>
-              {label}
-            </text>
-          ))}
-        </g>
+        {showBag ? <circle className="attn-node" cx={OUTPUT.x} cy={OUTPUT.y} r="6.5" fill={lit ? "#111" : "#fff"} stroke="#111" strokeWidth="1.25" /> : null}
+        {showBag ? (
+          <g data-bag="1">
+            {SLOTS.map((slot, index) => (
+              <line key={index} x1={BAG.x + 10} x2={BAG.x + BAG.w - 8} y1={slot.y + 8} y2={slot.y + 8} stroke="#111" strokeOpacity="0.28" />
+            ))}
+            {bag.map((label, index) => (
+              <text key={label} x={SLOTS[index].x} y={SLOTS[index].y} textAnchor="middle" fill="#111" fontSize="10" data-slot={label}>
+                {label}
+              </text>
+            ))}
+          </g>
+        ) : null}
         {flying.map((item) => (
           <text key={item.label} x={item.x} y={item.y} textAnchor="middle" fill="#111" fontSize="10">
             {item.label}
@@ -364,7 +368,7 @@ export default function HiddenNet() {
           </text>
         ) : null}
       </svg>
-      <p className="mt-4 max-w-full whitespace-nowrap text-center text-[11px] leading-snug text-faint sm:text-xs">
+      <p className="mt-4 max-w-full text-center text-[11px] leading-snug text-faint sm:text-xs">
         place the cursor to zoom and find the hidden states.
       </p>
     </div>
