@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import HiddenNet from "./hidden-net";
 
 const FACADES = ["i train models", "i love machine learning", "i build agents"];
 
@@ -121,9 +122,14 @@ export default function Welcome() {
   });
 
   return (
-    <div className="flex w-full max-w-3xl flex-col items-center gap-8 md:flex-row md:items-center md:justify-center md:gap-8">
+    <div className="flex w-full max-w-3xl flex-col items-center md:flex-row md:items-start md:justify-center md:gap-12">
       <p className="sr-only">{FACADES.join(". ")}</p>
-      <svg viewBox="0 0 300 200" className="h-auto w-full max-w-[320px] shrink-0" role="img" aria-label="A network with an input layer, a hidden layer, and an output layer">
+      <p aria-hidden="true" className="mb-8 min-h-[1.6em] text-center font-mono text-xl tracking-tight text-ink md:order-2 md:mb-0 md:min-w-[18ch] md:pt-16 md:text-left md:text-2xl">
+        {text}
+        <span className="type-cursor">▌</span>
+      </p>
+      <div className="flex w-full max-w-md flex-col items-center md:order-1">
+      <svg viewBox="0 0 300 200" className="h-auto w-full" role="img" aria-label="A network with an input layer, a hidden layer, and an output layer">
         {edges.map((edge) => (
           <line
             key={edge.key}
@@ -187,10 +193,8 @@ export default function Welcome() {
           output
         </text>
       </svg>
-      <p aria-hidden="true" className="min-h-[1.6em] text-center font-mono text-xl tracking-tight text-ink md:min-w-[18ch] md:text-left md:text-2xl">
-        {text}
-        <span className="type-cursor">▌</span>
-      </p>
+      <HiddenNet />
+      </div>
     </div>
   );
 }
