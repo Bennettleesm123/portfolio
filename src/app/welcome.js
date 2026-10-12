@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import HiddenNet from "./hidden-net";
 import { bindHomeCollapse } from "./home-reset";
 
-const FACADES = ["i train models", "i love machine learning", "i build agents"];
+const FACADES = ["i train models", "hello, i'm bennett.", "i build agents"];
 
 const INPUT_Y = [32, 84, 136];
 const HIDDEN_Y = [18, 62, 106, 150];
@@ -282,7 +282,7 @@ export default function Welcome() {
     <div className="relative w-full max-w-3xl" data-home-view={phase}>
       {showNet ? (
     <div ref={heroRef} className={`flex w-full flex-col items-center gap-8 md:flex-row md:items-center md:justify-center md:gap-8 ${heroMotion}`} style={heroStyle}>
-      <p className="sr-only">{FACADES.join(". ")}</p>
+      <p className="sr-only">{FACADES.map((line) => (line.endsWith(".") ? line : `${line}.`)).join(" ")}</p>
       <svg viewBox="0 0 300 200" className="h-auto w-full max-w-[320px] shrink-0" role="img" aria-label="A network with an input layer, a hidden layer, and an output layer">
         {edges.map((edge) => (
           <line
