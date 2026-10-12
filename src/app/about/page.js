@@ -1,5 +1,6 @@
 import { aboutParagraphs } from "../../data/profile";
 import AskBox from "../ask-box";
+import MarinaBay from "../marina-bay";
 import Section from "../section";
 
 export const metadata = {
@@ -15,6 +16,7 @@ export default function AboutPage() {
           <p key={paragraph}>{paragraph}</p>
         ))}
       </div>
+      <MarinaBay />
       <AskBox />
       <p className="mt-8 text-sm text-muted">
         <a href="mailto:bennettleesm@gmail.com" className="text-ink underline underline-offset-4">
