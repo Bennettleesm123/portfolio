@@ -311,9 +311,6 @@ export default function HiddenNet() {
         onPointerUp={onUp}
         onPointerCancel={onUp}
       >
-        {(showBag ? [168, 179, 190, 201] : [136, 146, 158, 168]).map((x, index) => (
-          <line key={index} x1={showBag ? 184 : 152} y1="0" x2={x} y2="22" stroke="#111" strokeWidth="1" strokeOpacity="0.28" />
-        ))}
         {HIDDEN.map((node, index) => {
           const gone = node.label && away.has(node.label);
           const scale = reduced || gone ? 1 : lensScale(node, pointer, nearestId);
