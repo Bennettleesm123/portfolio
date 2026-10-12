@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { BAG, FIELD, HIDDEN, INPUTS, OUTPUT, SLOTS, insideBag } from "./hidden-net-data";
+import { BAG, FIELD, HIDDEN, OUTPUT, SLOTS, insideBag } from "./hidden-net-data";
 
 const EASE_MS = 280;
 const HOLD_MS = 1400;
@@ -296,19 +296,22 @@ export default function HiddenNet() {
   }
 
   return (
-    <div className="flex w-full max-w-2xl flex-col items-center overflow-x-hidden" data-bag-count={bag.length} data-lit={lit ? "1" : "0"}>
+    <div className="flex w-full flex-col items-center overflow-x-hidden" data-bag-count={bag.length} data-lit={lit ? "1" : "0"}>
       <svg
         ref={svgRef}
-        viewBox="0 0 360 236"
-        className="h-auto w-full touch-none select-none font-mono"
+        viewBox="36 0 322 228"
+        className="-mt-1 h-auto w-full touch-none select-none font-mono"
         role="img"
-        aria-label="A field of hidden states, with a few inputs and one output"
+        aria-label="Hidden states inside the hidden layer"
         onPointerDown={onDown}
         onPointerMove={onMove}
         onPointerLeave={onLeave}
         onPointerUp={onUp}
         onPointerCancel={onUp}
       >
+        {[168, 179, 190, 201].map((x, index) => (
+          <line key={index} x1={184} y1="0" x2={x} y2="22" stroke="#111" strokeWidth="1" strokeOpacity="0.28" />
+        ))}
         {HIDDEN.map((node, index) => {
           const gone = node.label && away.has(node.label);
           const scale = reduced || gone ? 1 : lensScale(node, pointer, nearestId);
@@ -339,14 +342,6 @@ export default function HiddenNet() {
             </g>
           );
         })}
-        {INPUTS.map((input) => (
-          <g key={input.id} transform={`translate(${input.x} ${input.y})`}>
-            <circle r="5" fill="#fff" stroke="#111" strokeWidth="1.25" />
-            <text y="16" textAnchor="middle" fill="#111" fontSize="8">
-              {input.label}
-            </text>
-          </g>
-        ))}
         <circle className="attn-node" cx={OUTPUT.x} cy={OUTPUT.y} r="6.5" fill={lit ? "#111" : "#fff"} stroke="#111" strokeWidth="1.25" />
         <g data-bag="1">
           {SLOTS.map((slot, index) => (

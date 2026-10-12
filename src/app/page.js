@@ -1,11 +1,11 @@
 import Attention from "./attention";
-import HiddenNet from "./hidden-net";
 import NextToken from "./next-token";
 import SiteNav from "./site-nav";
 import Welcome from "./welcome";
 
-// attention, next-token, typewriter, and hidden homes stay switchable
-const home = "hidden";
+// attention, next-token, and typewriter stay switchable.
+// typewriter is the network, with the hidden-layer dots beneath it.
+const home = "typewriter";
 
 const iconClass = "text-ink transition-opacity hover:opacity-45";
 
@@ -14,14 +14,12 @@ export default function Home() {
     <main className="flex min-h-screen flex-col bg-paper text-ink">
       <SiteNav heading />
       <div className="flex flex-1 items-center justify-center px-6 py-16">
-        {home === "typewriter" ? (
-          <Welcome />
-        ) : home === "next-token" ? (
+        {home === "next-token" ? (
           <NextToken />
         ) : home === "attention" ? (
           <Attention />
         ) : (
-          <HiddenNet />
+          <Welcome />
         )}
       </div>
       <footer className="flex items-center justify-center gap-8 pb-10">
