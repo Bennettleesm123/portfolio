@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import HiddenNet from "./hidden-net";
 
 const FACADES = ["i train models", "i love machine learning", "i build agents"];
 
@@ -122,9 +121,8 @@ export default function Welcome() {
   });
 
   return (
-    <div className="flex w-full max-w-3xl flex-col items-center gap-2">
+    <div className="flex w-full max-w-3xl flex-col items-center gap-8 md:flex-row md:items-center md:justify-center md:gap-8">
       <p className="sr-only">{FACADES.join(". ")}</p>
-      <div className="flex w-full flex-col items-center gap-8 md:flex-row md:items-center md:justify-center md:gap-8">
       <svg viewBox="0 0 300 200" className="h-auto w-full max-w-[320px] shrink-0" role="img" aria-label="A network with an input layer, a hidden layer, and an output layer">
         {edges.map((edge) => (
           <line
@@ -193,8 +191,6 @@ export default function Welcome() {
         {text}
         <span className="type-cursor">▌</span>
       </p>
-      </div>
-      <HiddenNet />
     </div>
   );
 }
