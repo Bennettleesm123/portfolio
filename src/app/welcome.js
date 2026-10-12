@@ -367,7 +367,8 @@ export default function Welcome() {
           output
         </text>
       </svg>
-      <p aria-hidden="true" className="min-h-[1.6em] text-center font-mono text-xl tracking-tight text-ink md:min-w-[18ch] md:text-left md:text-2xl">
+      {/* 15.74px lifts the x-height onto the output stroke, which sits above the svg center. */}
+      <p aria-hidden="true" className="min-h-[1.6em] text-center font-mono text-xl tracking-tight text-ink md:min-w-[18ch] md:-translate-y-[15.74px] md:text-left md:text-2xl">
         {text}
         <span className="type-cursor">▌</span>
       </p>
