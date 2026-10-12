@@ -25,6 +25,33 @@ body {
   }
 }
 
+.lens-node {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 280ms ease-out;
+}
+
+.lens-label {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  transition: transform 280ms ease-out, opacity 280ms ease-out;
+}
+
+.drag-word {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: drag-lift 280ms ease-out both;
+}
+
+@keyframes drag-lift {
+  from {
+    transform: translateY(2px) scale(var(--drag-from, 1));
+  }
+  to {
+    transform: translateY(0) scale(1);
+  }
+}
+
 .attn-node {
   transition: fill 280ms ease-out;
 }
@@ -98,7 +125,13 @@ body {
 
   .choice-slot,
   .attn-node,
-  .attn-layer {
+  .attn-layer,
+  .lens-node,
+  .lens-label {
     transition: none;
+  }
+
+  .drag-word {
+    animation: none;
   }
 }

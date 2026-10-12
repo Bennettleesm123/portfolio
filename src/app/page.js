@@ -1,10 +1,11 @@
 import Attention from "./attention";
+import HiddenNet from "./hidden-net";
 import NextToken from "./next-token";
 import SiteNav from "./site-nav";
 import Welcome from "./welcome";
 
-// attention, next-token, and typewriter homes stay switchable
-const home = "attention";
+// attention, next-token, typewriter, and hidden homes stay switchable
+const home = "hidden";
 
 const iconClass = "text-ink transition-opacity hover:opacity-45";
 
@@ -13,7 +14,15 @@ export default function Home() {
     <main className="flex min-h-screen flex-col bg-paper text-ink">
       <SiteNav heading />
       <div className="flex flex-1 items-center justify-center px-6 py-16">
-        {home === "typewriter" ? <Welcome /> : home === "next-token" ? <NextToken /> : <Attention />}
+        {home === "typewriter" ? (
+          <Welcome />
+        ) : home === "next-token" ? (
+          <NextToken />
+        ) : home === "attention" ? (
+          <Attention />
+        ) : (
+          <HiddenNet />
+        )}
       </div>
       <footer className="flex items-center justify-center gap-8 pb-10">
         <a href="https://github.com/Bennettleesm123" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className={iconClass}>
