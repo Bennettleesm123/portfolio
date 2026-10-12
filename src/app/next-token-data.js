@@ -196,105 +196,33 @@ export const SENTENCES = [
     ],
   },
   {
-    stem: "i",
+    stem: "hello,",
     choices: [
       {
-        token: "love",
+        token: "i'm",
         p: 0.55,
         choices: [
-          {
-            token: "machine",
-            p: 0.6,
-            choices: [
-              { token: "learning", p: 0.7 },
-              { token: "vision", p: 0.18 },
-              { token: "translation", p: 0.12 },
-            ],
-          },
-          {
-            token: "quiet",
-            p: 0.24,
-            choices: [
-              { token: "work", p: 0.45 },
-              { token: "mornings", p: 0.32 },
-              { token: "hours", p: 0.23 },
-            ],
-          },
-          {
-            token: "this",
-            p: 0.16,
-            choices: [
-              { token: "work", p: 0.46 },
-              { token: "problem", p: 0.32 },
-              { token: "question", p: 0.22 },
-            ],
-          },
+          { token: "bennett.", p: 0.62 },
+          { token: "here.", p: 0.24 },
+          { token: "listening.", p: 0.14 },
         ],
       },
       {
-        token: "like",
+        token: "it's",
         p: 0.27,
         choices: [
-          {
-            token: "machine",
-            p: 0.4,
-            choices: [
-              { token: "learning", p: 0.68 },
-              { token: "vision", p: 0.2 },
-              { token: "translation", p: 0.12 },
-            ],
-          },
-          {
-            token: "building",
-            p: 0.36,
-            choices: [
-              { token: "agents", p: 0.5 },
-              { token: "tools", p: 0.3 },
-              { token: "systems", p: 0.2 },
-            ],
-          },
-          {
-            token: "hard",
-            p: 0.24,
-            choices: [
-              { token: "problems", p: 0.48 },
-              { token: "questions", p: 0.32 },
-              { token: "work", p: 0.2 },
-            ],
-          },
+          { token: "quiet.", p: 0.46 },
+          { token: "late.", p: 0.32 },
+          { token: "early.", p: 0.22 },
         ],
       },
       {
-        token: "study",
+        token: "come",
         p: 0.18,
         choices: [
-          {
-            token: "machine",
-            p: 0.46,
-            choices: [
-              { token: "learning", p: 0.7 },
-              { token: "vision", p: 0.18 },
-              { token: "translation", p: 0.12 },
-            ],
-          },
-          {
-            token: "statistics",
-            p: 0.32,
-            choices: [
-              { token: "for fun", p: 0.4 },
-              { token: "at night", p: 0.35 },
-              { token: "slowly", p: 0.25 },
-            ],
-          },
-          {
-            token: "models",
-            p: 0.22,
-            choices: [
-              { token: "closely", p: 0.42 },
-              { token: "at night", p: 0.33 },
-              { token: "carefully", p: 0.25 },
-            ],
-          },
+          { token: "in.", p: 0.5 },
+          { token: "closer.", p: 0.3 },
+          { token: "through.", p: 0.2 },
         ],
       },
     ],
