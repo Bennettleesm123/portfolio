@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { collapseToHome } from "./home-reset";
 
 const pages = [
   { href: "/experience", label: "Experience" },
@@ -13,7 +14,15 @@ const pages = [
 export default function SiteNav({ heading = false }) {
   const pathname = usePathname();
   const name = (
-    <Link href="/" className="tracking-tight text-ink">
+    <Link
+      href="/"
+      className="tracking-tight text-ink"
+      onClick={(event) => {
+        if (pathname !== "/") return;
+        event.preventDefault();
+        collapseToHome();
+      }}
+    >
       Bennett Lee
     </Link>
   );
