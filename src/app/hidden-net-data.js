@@ -8,7 +8,42 @@ export const LABELS = [
   "geopolitics",
   "military history",
   "philosophy",
-  "marcus aurelius",
+  "army",
+  "v1",
+  "ktp",
+  "michigan",
+  "hwa chong",
+  "phoenix",
+  "htx",
+  "saxophone",
+  "bonsai",
+  "volleyball",
+  "singapore",
+  "cooking",
+  "yapping",
+  "llm",
+  "medicine",
+  "badminton",
+  "roblox",
+  "duolingo",
+  "french",
+  "mandarin",
+  "interstellar",
+  "meditations",
+  "stoicism",
+  "deep movies",
+  "documentaries",
+];
+
+// The field was seeded with this set. New words reuse those dots so the picture stays put.
+const PLACED = [
+  "soccer",
+  "lego",
+  "history",
+  "geopolitics",
+  "military history",
+  "philosophy",
+  "documentaries",
   "army",
   "v1",
   "ktp",
@@ -79,8 +114,8 @@ function place(rng, count, bounds, minDist, avoid) {
 }
 
 const rng = mulberry32(0x51a7);
-const longLabels = LABELS.filter((label) => label.length > 10);
-const shortLabels = LABELS.filter((label) => label.length <= 10);
+const longLabels = PLACED.filter((label) => label.length > 10);
+const shortLabels = PLACED.filter((label) => label.length <= 10);
 const longSpots = place(rng, longLabels.length, { x: 96, y: 46, w: 108, h: 150 }, 20, []);
 const shortSpots = place(rng, shortLabels.length, { x: 72, y: 30, w: 156, h: 180 }, 16, longSpots);
 
@@ -95,7 +130,7 @@ const blanks = place(rng, 68, FIELD, 8, labeled).map((point, index) => ({
   ...point,
 }));
 
-export const HIDDEN = [...blanks, ...labeled];
+const nodes = [...blanks, ...labeled];
 
 function pick(list, count) {
   const copy = [...list];
@@ -109,7 +144,7 @@ function pick(list, count) {
 
 export const EDGES = [
   ...INPUTS.flatMap((input) =>
-    pick(HIDDEN, 4).map((node) => ({
+    pick(nodes, 4).map((node) => ({
       key: `${input.id}-${node.id}`,
       x1: input.x,
       y1: input.y,
@@ -117,7 +152,7 @@ export const EDGES = [
       y2: node.y,
     })),
   ),
-  ...pick(HIDDEN, 8).map((node) => ({
+  ...pick(nodes, 8).map((node) => ({
     key: `${node.id}-out`,
     x1: node.x,
     y1: node.y,
@@ -125,6 +160,33 @@ export const EDGES = [
     y2: OUTPUT.y,
   })),
 ];
+
+function clearOfBag(point) {
+  const x = Math.max(BAG.x, Math.min(point.x, BAG.x + BAG.w));
+  const y = Math.max(BAG.y, Math.min(point.y, BAG.y + BAG.h));
+  return Math.hypot(point.x - x, point.y - y) > 24;
+}
+
+const open = blanks.filter(
+  (node) => node.x > 88 && node.x < 210 && node.y > 48 && node.y < 190 && clearOfBag(node) && INPUTS.every((input) => dist(input, node) > 36),
+);
+
+for (const label of ["interstellar", "meditations", "stoicism", "deep movies"]) {
+  let best = null;
+  let bestScore = -1;
+  for (const node of open) {
+    if (node.label) continue;
+    const nearest = Math.min(...nodes.filter((other) => other.label).map((other) => dist(other, node)));
+    if (nearest > bestScore) {
+      bestScore = nearest;
+      best = node;
+    }
+  }
+  best.label = label;
+  best.id = `w-${label}`;
+}
+
+export const HIDDEN = [...nodes.filter((node) => !node.label), ...nodes.filter((node) => node.label)];
 
 export function insideBag(point) {
   return point.x >= BAG.x && point.x <= BAG.x + BAG.w && point.y >= BAG.y && point.y <= BAG.y + BAG.h;
