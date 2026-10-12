@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import HiddenNet from "./hidden-net";
 
 const FACADES = ["i train models", "i love machine learning", "i build agents"];
 
@@ -24,10 +25,21 @@ function Node({ x, y, lit, hot, label, onEnter, onLeave }) {
   );
 }
 
+const OPEN_MS = 280;
+
 export default function Welcome() {
   const [text, setText] = useState(FACADES[0]);
   const [phrase, setPhrase] = useState(0);
   const [hover, setHover] = useState(null);
+  const [phase, setPhase] = useState("network");
+  const [freeze, setFreeze] = useState(null);
+  const [flight, setFlight] = useState(null);
+  const heroRef = useRef(null);
+  const fieldRef = useRef(null);
+  const labelRef = useRef(null);
+  const alive = useRef(true);
+  const timer = useRef(0);
+  const frames = useRef([]);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -86,6 +98,114 @@ export default function Welcome() {
     };
   }, []);
 
+  useEffect(() => {
+    alive.current = true;
+    const pending = frames.current;
+    return () => {
+      alive.current = false;
+      window.clearTimeout(timer.current);
+      for (const id of pending) cancelAnimationFrame(id);
+    };
+  }, []);
+
+  const showNet = phase !== "field";
+  const showField = phase !== "network";
+
+  const later = (fn) => {
+    const first = requestAnimationFrame(() => {
+      const second = requestAnimationFrame(() => {
+        if (alive.current) fn();
+      });
+      frames.current.push(second);
+    });
+    frames.current.push(first);
+  };
+
+  const finish = (next) => {
+    window.clearTimeout(timer.current);
+    timer.current = window.setTimeout(() => {
+      if (!alive.current) return;
+      setFlight(null);
+      setFreeze(null);
+      setPhase(next);
+    }, OPEN_MS);
+  };
+
+  const openHidden = () => {
+    if (phase !== "network" || !heroRef.current || !labelRef.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setPhase("field");
+      return;
+    }
+    const heroBox = heroRef.current.getBoundingClientRect();
+    const labelBox = labelRef.current.getBoundingClientRect();
+    const labelPoint = {
+      x: labelBox.left + labelBox.width / 2,
+      y: labelBox.top + labelBox.height / 2,
+    };
+    setFreeze({
+      top: heroBox.top,
+      left: heroBox.left,
+      width: heroBox.width,
+      height: heroBox.height,
+      ox: labelPoint.x - heroBox.left,
+      oy: labelPoint.y - heroBox.top,
+    });
+    setPhase("opening");
+    later(() => {
+      const field = fieldRef.current;
+      if (!field) {
+        setFreeze(null);
+        setPhase("field");
+        return;
+      }
+      const box = field.getBoundingClientRect();
+      setFlight({
+        dx: labelPoint.x - (box.left + box.width / 2),
+        dy: labelPoint.y - (box.top + box.height / 2),
+      });
+      finish("field");
+    });
+  };
+
+  const closeHidden = () => {
+    if (phase !== "field" || !fieldRef.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setPhase("network");
+      return;
+    }
+    const fieldBox = fieldRef.current.getBoundingClientRect();
+    setFreeze({
+      top: fieldBox.top,
+      left: fieldBox.left,
+      width: fieldBox.width,
+      height: fieldBox.height,
+    });
+    setPhase("closing");
+    later(() => {
+      const label = labelRef.current;
+      const hero = heroRef.current;
+      if (!label || !hero) {
+        setFreeze(null);
+        setPhase("network");
+        return;
+      }
+      const labelBox = label.getBoundingClientRect();
+      const heroBox = hero.getBoundingClientRect();
+      const labelPoint = {
+        x: labelBox.left + labelBox.width / 2,
+        y: labelBox.top + labelBox.height / 2,
+      };
+      setFlight({
+        dx: labelPoint.x - (fieldBox.left + fieldBox.width / 2),
+        dy: labelPoint.y - (fieldBox.top + fieldBox.height / 2),
+        ox: labelPoint.x - heroBox.left,
+        oy: labelPoint.y - heroBox.top,
+      });
+      finish("network");
+    });
+  };
+
   const full = FACADES[phrase];
   const progress = full.length === 0 ? 0 : text.length / full.length;
   const inputOn = [progress > 0.05, progress > 0.34, progress > 0.62];
@@ -120,8 +240,42 @@ export default function Welcome() {
     });
   });
 
+  const heroMotion = phase === "opening" ? "layer-shut pointer-events-none" : phase === "closing" ? (flight ? "layer-return" : "opacity-0") : "";
+  const fieldMotion = phase === "opening" ? (flight ? "layer-open" : "opacity-0") : phase === "closing" ? (flight ? "layer-shut-back pointer-events-none" : "pointer-events-none") : "";
+  const heroStyle = phase === "opening" && freeze
+    ? {
+        position: "fixed",
+        top: freeze.top,
+        left: freeze.left,
+        width: freeze.width,
+        height: freeze.height,
+        zIndex: 1,
+        transformOrigin: `${freeze.ox}px ${freeze.oy}px`,
+      }
+    : phase === "closing"
+      ? { zIndex: 1, transformOrigin: flight ? `${flight.ox}px ${flight.oy}px` : "24% 42%" }
+      : undefined;
+  const fieldStyle = phase === "closing" && freeze
+    ? {
+        position: "fixed",
+        top: freeze.top,
+        left: freeze.left,
+        width: freeze.width,
+        zIndex: 2,
+        "--dx": flight ? `${flight.dx}px` : "0px",
+        "--dy": flight ? `${flight.dy}px` : "0px",
+      }
+    : {
+        position: "relative",
+        zIndex: 2,
+        "--dx": flight ? `${flight.dx}px` : "0px",
+        "--dy": flight ? `${flight.dy}px` : "0px",
+      };
+
   return (
-    <div className="flex w-full max-w-3xl flex-col items-center gap-8 md:flex-row md:items-center md:justify-center md:gap-8">
+    <div className="relative w-full max-w-3xl" data-home-view={phase}>
+      {showNet ? (
+    <div ref={heroRef} className={`flex w-full flex-col items-center gap-8 md:flex-row md:items-center md:justify-center md:gap-8 ${heroMotion}`} style={heroStyle}>
       <p className="sr-only">{FACADES.join(". ")}</p>
       <svg viewBox="0 0 300 200" className="h-auto w-full max-w-[320px] shrink-0" role="img" aria-label="A network with an input layer, a hidden layer, and an output layer">
         {edges.map((edge) => (
@@ -180,9 +334,26 @@ export default function Welcome() {
         <text x={X.input} y="180" textAnchor="middle" fill="#8a8a8a" fontSize="10" fontFamily="inherit">
           input
         </text>
-        <text x={X.hidden} y="180" textAnchor="middle" fill="#8a8a8a" fontSize="10" fontFamily="inherit">
-          hidden
-        </text>
+        <g
+          ref={labelRef}
+          role="button"
+          tabIndex={0}
+          aria-label="hidden"
+          aria-expanded={showField}
+          className="cursor-pointer"
+          onClick={openHidden}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              openHidden();
+            }
+          }}
+        >
+          <rect x={X.hidden - 28} y="166" width="56" height="20" fill="transparent" />
+          <text x={X.hidden} y="180" textAnchor="middle" fill="#8a8a8a" fontSize="10" fontFamily="inherit">
+            hidden
+          </text>
+        </g>
         <text x={OUTPUT.x} y="180" textAnchor="middle" fill="#8a8a8a" fontSize="10" fontFamily="inherit">
           output
         </text>
@@ -191,6 +362,16 @@ export default function Welcome() {
         {text}
         <span className="type-cursor">▌</span>
       </p>
+    </div>
+      ) : null}
+      {showField ? (
+        <div ref={fieldRef} className={`flex w-full flex-col items-center ${fieldMotion}`} style={fieldStyle}>
+          <button type="button" aria-label="hidden" onClick={closeHidden} className="mb-3 cursor-pointer border-0 bg-transparent p-0 text-[10px] text-faint">
+            hidden
+          </button>
+          <HiddenNet />
+        </div>
+      ) : null}
     </div>
   );
 }
