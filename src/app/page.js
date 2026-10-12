@@ -4,7 +4,7 @@ import SiteNav from "./site-nav";
 import Welcome from "./welcome";
 
 // attention, next-token, and typewriter stay switchable.
-// typewriter is the original network home. The bubble field lives at /hidden.
+// typewriter is the network home. The hidden label opens the bubble field in place.
 const home = "typewriter";
 
 const iconClass = "text-ink transition-opacity hover:opacity-45";
