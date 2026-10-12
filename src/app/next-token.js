@@ -117,8 +117,8 @@ export default function NextToken() {
           </span>
         ))}
       </p>
-      <div className="w-full max-w-sm" aria-hidden={menu.length === 0}>
-        <div key={menuKey} className={`flex min-h-36 flex-col border-t border-line ${menuMotion} ${menu.length === 0 ? "invisible border-transparent" : ""}`}>
+      <div className={`choice-slot w-full max-w-sm ${menu.length === 0 ? "is-collapsed" : ""}`} aria-hidden={menu.length === 0}>
+        <div key={menuKey} className={`flex flex-col border-t border-line ${menuMotion} ${menu.length === 0 ? "border-transparent" : ""}`}>
           {menu.map((choice) => (
             <button
               key={choice.token}
@@ -134,7 +134,7 @@ export default function NextToken() {
           ))}
         </div>
       </div>
-      <p className="max-w-full text-center text-xs text-faint">pick the next token. the sentence resets, then another starts.</p>
+      <p className="max-w-full whitespace-nowrap text-center text-[11px] leading-snug text-faint sm:text-xs">pick the next token. the sentence resets, then another starts.</p>
     </div>
   );
 }

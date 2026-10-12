@@ -25,6 +25,16 @@ body {
   }
 }
 
+.choice-slot {
+  max-height: 12rem;
+  overflow: hidden;
+  transition: max-height var(--join-ms, 280ms) ease-out;
+}
+
+.choice-slot.is-collapsed {
+  max-height: 0;
+}
+
 .token-join {
   animation: token-join var(--join-ms, 280ms) ease-out both;
 }
@@ -76,5 +86,9 @@ body {
   .sentence-clear,
   .sentence-in {
     animation: none;
+  }
+
+  .choice-slot {
+    transition: none;
   }
 }
