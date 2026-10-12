@@ -1,11 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { BAG, EDGES, HIDDEN, INPUTS, OUTPUT, SLOTS, insideBag } from "./hidden-net-data";
+import { BAG, FIELD, HIDDEN, INPUTS, OUTPUT, SLOTS, insideBag } from "./hidden-net-data";
 
 const EASE_MS = 280;
 const HOLD_MS = 1400;
 const LENS_R = 34;
+const BUBBLE_R = 58;
+const BURST = 32;
+const PUSH_TAU = 0.085;
 
 function prefersReduced() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -15,17 +18,27 @@ function easeOut(t) {
   return 1 - (1 - t) ** 3;
 }
 
+function phaseFor(index) {
+  const n = Math.sin((index + 1) * 12.9898) * 43758.5453;
+  return (n - Math.floor(n)) * Math.PI * 2;
+}
+
+function insideField(point) {
+  return point.x >= FIELD.x && point.x <= FIELD.x + FIELD.w && point.y >= FIELD.y && point.y <= FIELD.y + FIELD.h;
+}
+
 function lensScale(node, pointer, nearestId) {
-  if (!pointer) return 1;
+  if (!pointer || !node.label || node.id !== nearestId) return 1;
   const distance = Math.hypot(node.x - pointer.x, node.y - pointer.y);
   if (distance >= LENS_R) return 1;
   const falloff = (1 - distance / LENS_R) ** 2;
-  if (node.label && node.id === nearestId) return 1 + 5.4 * falloff;
-  return 1 + 0.7 * falloff;
+  return 1 + 5.4 * falloff;
 }
 
 export default function HiddenNet() {
   const svgRef = useRef(null);
+  const pointerRef = useRef(null);
+  const motionRef = useRef(HIDDEN.map(() => ({ x: 0, y: 0 })));
   const bagRef = useRef([]);
   const dragRef = useRef(null);
   const heldRef = useRef(new Set());
@@ -46,6 +59,59 @@ export default function HiddenNet() {
       for (const id of pendingTimers) clearTimeout(id);
       for (const id of pendingFrames) cancelAnimationFrame(id);
     };
+  }, []);
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const pushX = new Float64Array(HIDDEN.length);
+    const pushY = new Float64Array(HIDDEN.length);
+    let frame = 0;
+    let last = 0;
+    const step = (now) => {
+      const dt = last ? Math.min(0.05, (now - last) / 1000) : 0;
+      last = now;
+      const reducedNow = media.matches;
+      const pointer = pointerRef.current;
+      const open = !reducedNow && pointer && insideField(pointer);
+      const k = reducedNow ? 1 : 1 - Math.exp(-dt / PUSH_TAU);
+      const t = now / 1000;
+      const dots = svgRef.current?.querySelectorAll("[data-dot]");
+      if (dots) {
+        for (const dot of dots) {
+          const i = Number(dot.dataset.i);
+          const node = HIDDEN[i];
+          let tx = 0;
+          let ty = 0;
+          if (open) {
+            const dx = node.x - pointer.x;
+            const dy = node.y - pointer.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < BUBBLE_R && dist > 0.01) {
+              const falloff = (1 - dist / BUBBLE_R) ** 1.15;
+              const mag = BURST * falloff;
+              tx = (dx / dist) * mag;
+              ty = (dy / dist) * mag;
+            }
+          }
+          if (reducedNow) {
+            pushX[i] = 0;
+            pushY[i] = 0;
+          } else {
+            pushX[i] += (tx - pushX[i]) * k;
+            pushY[i] += (ty - pushY[i]) * k;
+          }
+          const phase = phaseFor(i);
+          const amp = reducedNow ? 0 : 2.4 + (phase / (Math.PI * 2)) * 1.8;
+          const x = Math.sin(t * 0.52 + phase) * amp + pushX[i];
+          const y = Math.cos(t * 0.38 + phase * 1.7) * amp * 0.82 + pushY[i];
+          dot.setAttribute("transform", `translate(${x.toFixed(2)} ${y.toFixed(2)})`);
+          motionRef.current[i] = { x, y };
+        }
+      }
+      frame = requestAnimationFrame(step);
+    };
+    frame = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   function later(fn, ms) {
@@ -140,6 +206,7 @@ export default function HiddenNet() {
     const reducedNow = prefersReduced();
     setReduced(reducedNow);
     const point = pointFrom(event);
+    pointerRef.current = point;
     if (dragRef.current) {
       const next = { ...dragRef.current, x: point.x, y: point.y };
       dragRef.current = next;
@@ -151,6 +218,7 @@ export default function HiddenNet() {
 
   function onLeave() {
     if (dragRef.current) return;
+    pointerRef.current = null;
     setPointer(null);
   }
 
@@ -158,16 +226,18 @@ export default function HiddenNet() {
     if (busyRef.current || dragRef.current) return;
     if (event.button != null && event.button !== 0) return;
     const point = pointFrom(event);
+    pointerRef.current = point;
     let label = null;
     let nearest = LENS_R;
-    for (const node of HIDDEN) {
-      if (!node.label || bagRef.current.includes(node.label) || heldRef.current.has(node.label)) continue;
-      const distance = Math.hypot(node.x - point.x, node.y - point.y);
+    HIDDEN.forEach((node, index) => {
+      if (!node.label || bagRef.current.includes(node.label) || heldRef.current.has(node.label)) return;
+      const motion = motionRef.current[index] || { x: 0, y: 0 };
+      const distance = Math.hypot(node.x + motion.x - point.x, node.y + motion.y - point.y);
       if (distance < nearest) {
         nearest = distance;
         label = node.label;
       }
-    }
+    });
     if (!label) return;
     event.preventDefault();
     const reducedNow = prefersReduced();
@@ -192,6 +262,7 @@ export default function HiddenNet() {
     const node = HIDDEN.find((candidate) => candidate.label === current.label);
     dragRef.current = null;
     setDrag(null);
+    pointerRef.current = null;
     setPointer(null);
     const taken = bagRef.current;
     if (taken.includes(current.label)) return;
@@ -213,7 +284,7 @@ export default function HiddenNet() {
   const away = new Set([...bag, ...flying.map((item) => item.label), ...(drag ? [drag.label] : [])]);
   let nearestId = null;
   let nearest = Infinity;
-  if (pointer && !drag) {
+  if (pointer && !drag && insideField(pointer)) {
     for (const node of HIDDEN) {
       if (!node.label || away.has(node.label)) continue;
       const distance = Math.hypot(node.x - pointer.x, node.y - pointer.y);
@@ -231,44 +302,40 @@ export default function HiddenNet() {
         viewBox="0 0 360 236"
         className="h-auto w-full touch-none select-none font-mono"
         role="img"
-        aria-label="A network with a few inputs, a dense hidden layer, and one output"
+        aria-label="A field of hidden states, with a few inputs and one output"
         onPointerDown={onDown}
         onPointerMove={onMove}
         onPointerLeave={onLeave}
         onPointerUp={onUp}
         onPointerCancel={onUp}
       >
-        {EDGES.map((edge) => (
-          <line key={edge.key} x1={edge.x1} y1={edge.y1} x2={edge.x2} y2={edge.y2} stroke="#111" strokeWidth="1" strokeOpacity="0.16" />
-        ))}
-        {HIDDEN.map((node) => {
+        {HIDDEN.map((node, index) => {
           const gone = node.label && away.has(node.label);
           const scale = reduced || gone ? 1 : lensScale(node, pointer, nearestId);
           const showWord = Boolean(node.label) && !gone && !reduced && node.id === nearestId && scale > 2.1;
-          const dotScale = showWord ? 1 + (scale - 1) * 0.22 : scale;
           return (
             <g key={node.id} transform={`translate(${node.x} ${node.y})`} data-label={node.label || undefined}>
-              <g className="lens-node" style={{ transform: `scale(${dotScale})` }}>
-                <circle r={node.label ? 2.15 : 1.65} fill="#111" opacity={gone ? 0.22 : 0.9} />
+              <g data-dot data-i={index}>
+                <circle className="lens-node" r={node.label ? 2.15 : 1.65} fill="#111" opacity={gone ? 0.22 : 0.9} />
+                {node.label ? (
+                  <text
+                    className="lens-label"
+                    y="-8"
+                    textAnchor="middle"
+                    fill="#111"
+                    fontSize="2.7"
+                    opacity={showWord ? 1 : 0}
+                    style={{ transform: `scale(${showWord ? scale : 1})`, transition: gone ? "none" : undefined }}
+                  >
+                    {node.label}
+                  </text>
+                ) : null}
+                {reduced && node.label && !gone && node.id === nearestId ? (
+                  <text y="-12" textAnchor="middle" fill="#111" fontSize="11">
+                    {node.label}
+                  </text>
+                ) : null}
               </g>
-              {node.label ? (
-                <text
-                  className="lens-label"
-                  y="-8"
-                  textAnchor="middle"
-                  fill="#111"
-                  fontSize="2.7"
-                  opacity={showWord ? 1 : 0}
-                  style={{ transform: `scale(${showWord ? scale : 1})`, transition: gone ? "none" : undefined }}
-                >
-                  {node.label}
-                </text>
-              ) : null}
-              {reduced && node.label && !gone && node.id === nearestId ? (
-                <text y="-12" textAnchor="middle" fill="#111" fontSize="11">
-                  {node.label}
-                </text>
-              ) : null}
             </g>
           );
         })}
