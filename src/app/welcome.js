@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import HiddenNet from "./hidden-net";
+import { bindHomeCollapse } from "./home-reset";
 
 const FACADES = ["i train models", "i love machine learning", "i build agents"];
 
@@ -206,6 +207,11 @@ export default function Welcome() {
     });
   };
 
+  useEffect(() => {
+    bindHomeCollapse(closeHidden);
+    return () => bindHomeCollapse(() => {});
+  });
+
   const full = FACADES[phrase];
   const progress = full.length === 0 ? 0 : text.length / full.length;
   const inputOn = [progress > 0.05, progress > 0.34, progress > 0.62];
@@ -349,9 +355,12 @@ export default function Welcome() {
             }
           }}
         >
-          <rect x={X.hidden - 28} y="166" width="56" height="20" fill="transparent" />
+          <rect x={X.hidden - 42} y="166" width="84" height="34" fill="transparent" />
           <text x={X.hidden} y="180" textAnchor="middle" fill="#8a8a8a" fontSize="10" fontFamily="inherit">
             hidden
+          </text>
+          <text x={X.hidden} y="194" textAnchor="middle" fill="#8a8a8a" fontSize="8" fontFamily="inherit">
+            click here!
           </text>
         </g>
         <text x={OUTPUT.x} y="180" textAnchor="middle" fill="#8a8a8a" fontSize="10" fontFamily="inherit">
@@ -366,8 +375,8 @@ export default function Welcome() {
       ) : null}
       {showField ? (
         <div ref={fieldRef} className={`flex w-full flex-col items-center ${fieldMotion}`} style={fieldStyle}>
-          <button type="button" aria-label="hidden" onClick={closeHidden} className="mb-3 cursor-pointer border-0 bg-transparent p-0 text-[10px] text-faint">
-            hidden
+          <button type="button" onClick={closeHidden} className="mb-3 cursor-pointer border-0 bg-transparent p-0 text-[10px] text-faint">
+            back
           </button>
           <HiddenNet />
         </div>
