@@ -1,6 +1,6 @@
 import { aboutParagraphs } from "../../data/profile";
 import AskBox from "../ask-box";
-import MarinaBay from "../marina-bay";
+import BouncingBalls from "../bouncing-balls";
 import Section from "../section";
 
 export const metadata = {
@@ -10,14 +10,12 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
-    <Section title="About">
+    <Section title="About" before={<BouncingBalls />}>
       <div className="mt-8 max-w-xl space-y-3 text-sm leading-relaxed text-muted">
         {aboutParagraphs.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}
       </div>
-      <MarinaBay />
-      <AskBox />
       <p className="mt-8 text-sm text-muted">
         <a href="mailto:bennettleesm@gmail.com" className="text-ink underline underline-offset-4">
           bennettleesm@gmail.com
@@ -27,6 +25,7 @@ export default function AboutPage() {
           Resume
         </a>
       </p>
+      <AskBox />
     </Section>
   );
 }
