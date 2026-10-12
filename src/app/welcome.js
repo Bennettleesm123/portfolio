@@ -376,10 +376,10 @@ export default function Welcome() {
       ) : null}
       {showField ? (
         <div ref={fieldRef} className={`flex w-full flex-col items-center ${fieldMotion}`} style={fieldStyle}>
-          <button type="button" onClick={closeHidden} className="mb-3 cursor-pointer border-0 bg-transparent p-0 text-[10px] text-faint">
+          <HiddenNet />
+          <button type="button" onClick={closeHidden} className="mt-6 cursor-pointer border-0 bg-transparent p-0 text-[10px] text-faint">
             back
           </button>
-          <HiddenNet />
         </div>
       ) : null}
     </div>
