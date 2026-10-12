@@ -66,7 +66,7 @@ const PLACED = [
   "mandarin",
 ];
 
-const FIELD = { x: 62, y: 22, w: 176, h: 196 };
+export const FIELD = { x: 62, y: 22, w: 176, h: 196 };
 
 export const INPUTS = [
   { id: "in-i", label: "i", x: 24, y: 58 },
